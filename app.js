@@ -9,11 +9,15 @@
 //     fs.readdir(dirPath1, (err, files) => {
 //         files.forEach(fileName => {
 //             fs.readFile(path.join(dirPath1, fileName), ((err, data) => {
+//                 if (err) {
+//                     console.log(err);
+//                     return;
+//                 }
 //                 const user = JSON.parse(data);
 //                 if(user.gender === 'male'){
-//                     fs.rename(path.join(dirPath1, fileName), path.join(dirPath2, fileName), err => {
-//                         if (err) {
-//                              console.log(err);
+//                     fs.rename(path.join(dirPath1, fileName), path.join(dirPath2, fileName), err2 => {
+//                         if (err2) {
+//                              console.log(err2);
 //                              return;
 //                         }
 //                     });
@@ -26,11 +30,15 @@
 //     fs.readdir(dirPath2, (err, files) => {
 //         files.forEach(fileName => {
 //             fs.readFile(path.join(dirPath2, fileName), ((err, data) => {
+//                 if (err) {
+//                     console.log(err);
+//                     return;
+//                 }
 //                 const user = JSON.parse(data);
 //                 if(user.gender === 'female'){
-//                     fs.rename(path.join(dirPath2, fileName), path.join(dirPath1, fileName), err => {
-//                         if (err) {
-//                             console.log(err);
+//                     fs.rename(path.join(dirPath2, fileName), path.join(dirPath1, fileName), err2 => {
+//                         if (err2) {
+//                             console.log(err2);
 //                             return;
 //                         }
 //                     });
@@ -59,22 +67,22 @@
 //             return;
 //         }
 //         files.forEach(file => {
-//             fs.stat(path.join(dirPath, file), (err1, stats) => {
+//             fs.stat(path.join(dirPath, file), (err2, stats) => {
+//                 if (err2) {
+//                     console.log(err2);
+//                     return;
+//                 }
 //                 if(stats.isDirectory()){
 //                     unpacking(path.join(dirPath, file), newDirPath);
 //                 } else{
-//                     fs.rename(path.join(dirPath, file), path.join(newDirPath, file), err2 => {
-//                         if(err2){
-//                             console.log(err2);
+//                     fs.rename(path.join(dirPath, file), path.join(newDirPath, file), err3 => {
+//                         if(err3){
+//                             console.log(err3);
 //                             return;
 //                         }
 //                     })
 //                 }
-//                 if (err1) {
-//                     console.log(err1);
-//                     return;
-//                 }
 //             })
 //         })
 //     });
-// };
+// }
