@@ -1,11 +1,11 @@
-//Task 1
+// Task 1
 // const fs = require('fs');
 // const path = require('path');
 //
 // const dirPath1 = path.join(__dirname, '/1800');
 // const dirPath2 = path.join(__dirname, '/2000');
 //
-// function readFirstDir(dirPath1, dirPath2){
+// function readDir(dirPath1, dirPath2){
 //     fs.readdir(dirPath1, (err, files) => {
 //         files.forEach(fileName => {
 //             fs.readFile(path.join(dirPath1, fileName), ((err, data) => {
@@ -18,15 +18,13 @@
 //                     fs.rename(path.join(dirPath1, fileName), path.join(dirPath2, fileName), err2 => {
 //                         if (err2) {
 //                              console.log(err2);
-//                              return;
 //                         }
 //                     });
 //                 }
 //             }));
 //         });
-//     })
-// }
-// function readSecondDir(dirPath1, dirPath2){
+//     });
+//
 //     fs.readdir(dirPath2, (err, files) => {
 //         files.forEach(fileName => {
 //             fs.readFile(path.join(dirPath2, fileName), ((err, data) => {
@@ -39,18 +37,15 @@
 //                     fs.rename(path.join(dirPath2, fileName), path.join(dirPath1, fileName), err2 => {
 //                         if (err2) {
 //                             console.log(err2);
-//                             return;
 //                         }
 //                     });
 //                 }
 //             }));
 //         });
-//     })
+//     });
 // }
 //
-// readFirstDir(dirPath1, dirPath2);
-// readSecondDir(dirPath1, dirPath2);
-
+// readDir(dirPath1, dirPath2);
 
 // Task 2
 // const fs = require('fs');
@@ -78,7 +73,6 @@
 //                     fs.rename(path.join(dirPath, file), path.join(newDirPath, file), err3 => {
 //                         if(err3){
 //                             console.log(err3);
-//                             return;
 //                         }
 //                     })
 //                 }
