@@ -69,7 +69,8 @@
 //                 }
 //                 if(stats.isDirectory()){
 //                     unpacking(path.join(dirPath, file), newDirPath);
-//                 } else{
+//                 }
+//                 else{
 //                     fs.rename(path.join(dirPath, file), path.join(newDirPath, file), err3 => {
 //                         if(err3){
 //                             console.log(err3);
