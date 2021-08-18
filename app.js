@@ -2,8 +2,8 @@
 // const fs = require('fs');
 // const path = require('path');
 //
-// const dirPath1 = path.join(__dirname, '/1800');
-// const dirPath2 = path.join(__dirname, '/2000');
+// const dirPath1 = path.join(__dirname, '1800');
+// const dirPath2 = path.join(__dirname, '2000');
 //
 //
 // const readDir = (dirPath1, dirPath2, genderName) =>{
