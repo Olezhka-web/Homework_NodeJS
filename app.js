@@ -115,9 +115,11 @@ app.post('/login', (req, res) => {
                 res.render('error', {error: 'Invalid password'});
 
             }
+
             res.render('users', {users});
             return;
         }
+
         res.render('error', {error: 'There is no user with this email. Please register'});
     });
 });
