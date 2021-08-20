@@ -111,19 +111,16 @@ app.post('/login', (req, res) => {
 
                 if (!searchUserEmail) {
                     res.render('error', {error: 'There is no user with this email. Please register'});
+                    return;
                 }
 
-                else {
-                    res.render('error', {error: 'Invalid password'});
-                }
+                res.render('error', {error: 'Invalid password'});
 
             }
             res.render('users', {users});
+            return;
         }
-
-        else {
-            res.render('error', {error: 'There is no user with this email. Please register'});
-        }
+        res.render('error', {error: 'There is no user with this email. Please register'});
     });
 });
 
