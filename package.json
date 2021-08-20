@@ -2,9 +2,8 @@
   "name": "Homework_NodeJS",
   "version": "1.0.0",
   "dependencies": {
-    "express": "^4.17.1"
-  },
-  "devDependencies": {
-    "express-handlebars": "^5.3.3"
+    "express": "^4.17.1",
+    "express-handlebars": "^5.3.3",
+    "nodemon": "2.0.12"
   }
 }
