@@ -82,13 +82,11 @@ app.get('/users', (req, res) => {
         if(value !== ''){
             const users = JSON.parse(value);
             res.render('users', {users});
+            return;
         }
 
-        else{
-            const users = [];
-            res.render('users', {users});
-        }
-
+        const users = [];
+        res.render('users', {users});
     });
 });
 
