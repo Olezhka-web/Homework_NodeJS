@@ -103,6 +103,7 @@ app.post('/login', (req, res) => {
             const searchUserEmail = users.find(user => user.email === req.body.email);
             if (searchUserDb !== -1) {
                 res.redirect(`/user/${searchUserDb}`);
+                return;
             }
 
             else {
@@ -113,11 +114,9 @@ app.post('/login', (req, res) => {
                 }
 
                 res.render('error', {error: 'Invalid password'});
-
+                return;
             }
 
-            res.render('users', {users});
-            return;
         }
 
         res.render('error', {error: 'There is no user with this email. Please register'});
