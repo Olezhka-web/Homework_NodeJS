@@ -12,14 +12,18 @@ module.exports = {
 
     loginCheck: (req, res) => {
         readFile(dbPath, (value) => {
+
             if (value !== '') {
                 const users = JSON.parse(value);
                 const searchUserDb = users.findIndex(user => user.email === req.body.email && user.password === req.body.password);
                 const searchUserEmail = users.find(user => user.email === req.body.email);
+
                 if (searchUserDb !== -1) {
                     res.redirect(`/users/${searchUserDb}`);
                     return;
-                } else {
+                }
+
+                else {
 
                     if (!searchUserEmail) {
                         res.status(404).json('There is no user with this email. Please register');
@@ -28,6 +32,7 @@ module.exports = {
 
                     res.status(404).json('Invalid password');
                     return;
+
                 }
 
             }
@@ -42,6 +47,7 @@ module.exports = {
 
     registerCheck: (req, res) => {
         readFile(dbPath, (value) =>{
+
             if (value !== ''){
                 const searchUser = arrUsers.find(user => user.email === req.body.email);
 
