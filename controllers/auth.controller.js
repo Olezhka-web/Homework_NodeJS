@@ -1,7 +1,5 @@
 const path = require('path');
-const { readFile } = require('../services/readFile.service');
-const { arrUsers } = require('../services/getData.service');
-const { writeFile } = require('../services/writeFile.service');
+const { readFile } = require('../services');
 
 const dbPath = path.join(__dirname, '../db/users.txt');
 
@@ -10,52 +8,29 @@ module.exports = {
         res.status(200).json('Введіть логін та пароль');
     },
 
-    loginCheck: (req, res) => {
-        readFile(dbPath, (value) => {
-            if (value !== '') {
-                const users = JSON.parse(value);
-                // eslint-disable-next-line max-len
-                const searchUserDb = users.findIndex((user) => user.email === req.body.email && user.password === req.body.password);
-                const searchUserEmail = users.find((user) => user.email === req.body.email);
+    loginCheck: async (req, res) => {
+        const dateBuff = await readFile.readFilePromise(dbPath);
 
-                if (searchUserDb !== -1) {
-                    res.redirect(`/users/${searchUserDb}`);
-                    return;
-                }
+        if (dateBuff.toString().trim() !== '') {
+            const users = JSON.parse(dateBuff.toString());
+            // eslint-disable-next-line max-len
+            const searchUserDb = users.findIndex((user) => user.email === req.body.email && user.password === req.body.password);
+            const searchUserEmail = users.find((user) => user.email === req.body.email);
 
-                if (!searchUserEmail) {
-                    res.status(404).json('There is no user with this email. Please register');
-                    return;
-                }
-
-                res.status(404).json('Invalid password');
+            if (searchUserDb !== -1) {
+                res.redirect(`/users/${searchUserDb}`);
                 return;
             }
 
-            res.status(404).json('There is no user with this email. Please register');
-        });
-    },
-
-    registerPage: (req, res) => {
-        res.status(200).json('Напишіть логін та пароль щоб зареєструватися');
-    },
-
-    registerCheck: (req, res) => {
-        readFile(dbPath, (value) => {
-            if (value !== '') {
-                const searchUser = arrUsers.find((user) => user.email === req.body.email);
-
-                if (searchUser) {
-                    res.status(404).json('User with this email is already registered. Please'
-                        + ' choose another email or if this is your registered email, please log in to your'
-                        + ' account.');
-                    return;
-                }
+            if (!searchUserEmail) {
+                res.status(404).json('There is no user with this email. Please register');
+                return;
             }
 
-            arrUsers.push(req.body);
-            writeFile(dbPath, JSON.stringify(arrUsers));
-            res.redirect('/users');
-        });
+            res.status(404).json('Invalid password');
+            return;
+        }
+
+        res.status(404).json('There is no user with this email. Please register');
     }
 };

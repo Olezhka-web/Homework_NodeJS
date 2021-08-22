@@ -1,11 +1,7 @@
 const fs = require('fs');
 
+const { promisify } = require('util');
+
 module.exports = {
-    writeFile: (dbPath, data) => {
-        fs.writeFile(dbPath, data, (err) => {
-            if (err) {
-                console.log(err);
-            }
-        });
-    }
+    writeFilePromise: promisify(fs.writeFile)
 };
