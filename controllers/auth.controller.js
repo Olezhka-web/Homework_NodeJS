@@ -9,10 +9,10 @@ module.exports = {
     },
 
     loginCheck: async (req, res) => {
-        const dateBuff = await readFile.readFilePromise(dbPath);
+        const dataBuff = await readFile.readFilePromise(dbPath);
 
-        if (dateBuff.toString().trim() !== '') {
-            const users = JSON.parse(dateBuff.toString());
+        if (dataBuff.toString().trim() !== '') {
+            const users = JSON.parse(dataBuff.toString());
             // eslint-disable-next-line max-len
             const searchUserDb = users.findIndex((user) => user.email === req.body.email && user.password === req.body.password);
             const searchUserEmail = users.find((user) => user.email === req.body.email);

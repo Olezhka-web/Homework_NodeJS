@@ -7,38 +7,38 @@ const dbPath = path.join(__dirname, '../db/users.txt');
 
 module.exports = {
     getUsers: async (req, res) => {
-        const dateBuff = await readFile.readFilePromise(dbPath);
+        const dataBuff = await readFile.readFilePromise(dbPath);
 
-        if (dateBuff.toString().trim() !== '') {
-            return res.status(200).json(JSON.parse(dateBuff.toString()));
+        if (dataBuff.toString().trim() !== '') {
+            return res.status(200).json(JSON.parse(dataBuff.toString()));
         }
 
         res.status(200).json([]);
     },
 
     getUserById: async (req, res) => {
-        const dateBuff = await readFile.readFilePromise(dbPath);
-        if (dateBuff.toString().trim() === '') {
+        const dataBuff = await readFile.readFilePromise(dbPath);
+        if (dataBuff.toString().trim() === '') {
             return res.status(400).json('There is no users!');
         }
 
         const { id } = req.params;
-        const user = JSON.parse(dateBuff.toString())[id];
+        const user = JSON.parse(dataBuff.toString())[id];
 
         if (!user) {
             res.status(404).json('User not found');
             return;
         }
 
-        res.status(200).json(JSON.parse(dateBuff.toString())[id]);
+        res.status(200).json(JSON.parse(dataBuff.toString())[id]);
     },
 
     createUser: async (req, res) => {
-        const dateBuff = await readFile.readFilePromise(dbPath);
+        const dataBuff = await readFile.readFilePromise(dbPath);
         const arrUsers = [];
 
-        if (dateBuff.toString().trim() !== '') {
-            JSON.parse(dateBuff.toString()).map((value) => arrUsers.push(value));
+        if (dataBuff.toString().trim() !== '') {
+            JSON.parse(dataBuff.toString()).map((value) => arrUsers.push(value));
         }
 
         const searchUser = arrUsers.find((user) => user.email === req.body.email);
