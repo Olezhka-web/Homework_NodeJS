@@ -9,5 +9,5 @@ module.exports = {
 
     deleteCar: (id) => Car.deleteOne(id),
 
-    updateCar: (id, carObject) => Car.findOneAndUpdate(id, carObject)
+    updateCar: (id, carObject) => Car.findByIdAndUpdate(id, carObject)
 };

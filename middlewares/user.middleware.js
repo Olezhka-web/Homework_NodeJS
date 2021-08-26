@@ -109,5 +109,26 @@ module.exports = {
         } catch (e) {
             next(e);
         }
+    },
+
+    checkUserById: async (req, res, next) => {
+        try {
+            const { id } = req.params;
+
+            if (!id) {
+                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.userMessages.INVALID_ID);
+            }
+
+            const user = await userService.findUserById(id);
+
+            if (!user) {
+                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.userMessages.NO_USER);
+            }
+
+            req.user = user;
+            next();
+        } catch (e) {
+            next(e);
+        }
     }
 };

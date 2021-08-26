@@ -9,5 +9,5 @@ module.exports = {
 
     deleteUser: (id) => User.deleteOne(id),
 
-    updateUser: (id, userObject) => User.findOneAndUpdate(id, userObject)
+    updateUser: (id, userObject) => User.findByIdAndUpdate(id, userObject)
 };

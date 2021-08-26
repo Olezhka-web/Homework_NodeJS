@@ -88,5 +88,26 @@ module.exports = {
         } catch (e) {
             next(e);
         }
+    },
+
+    checkCarById: async (req, res, next) => {
+        try {
+            const { id } = req.params;
+
+            if (!id) {
+                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.carMessages.INVALID_ID);
+            }
+
+            const car = await carService.findCarById(id);
+
+            if (!car) {
+                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.carMessages.NO_CAR);
+            }
+
+            req.car = car;
+            next();
+        } catch (e) {
+            next(e);
+        }
     }
 };

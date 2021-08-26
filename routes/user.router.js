@@ -16,6 +16,7 @@ router.put('/:id',
     userMiddleware.checkUserName,
     userMiddleware.checkPassword,
     userMiddleware.checkUniqueEmail,
+    userMiddleware.checkUserById,
     userController.updateUser);
 
 module.exports = router;

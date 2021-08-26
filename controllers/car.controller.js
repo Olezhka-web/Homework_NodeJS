@@ -31,7 +31,7 @@ module.exports = {
 
     updateCar: async (req, res, next) => {
         try {
-            const { id } = req.params;
+            const { id } = req.car;
 
             await carService.updateCar(id, req.body);
 

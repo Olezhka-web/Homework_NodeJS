@@ -10,6 +10,7 @@ router.delete('/:id', carMiddleware.checkDeleteCar, carController.deleteCar);
 router.put('/:id',
     carMiddleware.checkCarModel,
     carMiddleware.checkCarPrice,
+    carMiddleware.checkCarById,
     carController.updateCar);
 
 module.exports = router;
