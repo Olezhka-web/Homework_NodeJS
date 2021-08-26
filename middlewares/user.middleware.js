@@ -27,6 +27,7 @@ module.exports = {
             }
 
             const usersByEmail = await userService.findUsers({ email });
+
             req.users = usersByEmail;
             next();
         } catch (e) {
