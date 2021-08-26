@@ -12,8 +12,8 @@ app.use(express.urlencoded({ extended: true }));
 
 const { userRouter, carRouter } = require('./routes');
 
-const messages = require('./messages/user.messages');
-const errorCodes = require('./constants/errorCodes.enum');
+const messages = require('./constants/messages');
+const errorCodes = require('./constants/codes/errorCodes.enum');
 
 app.use('/users', userRouter);
 app.use('/cars', carRouter);
@@ -27,7 +27,7 @@ app.listen(PORT, () => {
 function _notFoundError(err, req, res, next) {
     next({
         status: err.status || errorCodes.NOT_FOUND_ERR,
-        message: err.message || messages.NOT_FOUND
+        message: err.message || messages.userMessages.NOT_FOUND
     });
 }
 

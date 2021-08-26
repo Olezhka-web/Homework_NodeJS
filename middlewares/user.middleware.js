@@ -1,39 +1,32 @@
-const User = require('../db/models/User');
 const ErrorHandler = require('../errors/ErrorHandler');
-const userService = require('../service/user.service');
-const messages = require('../messages/user.messages');
-const errorCodes = require('../constants/errorCodes.enum');
+
+const { userService } = require('../service');
+
+const { User } = require('../db/models');
+
+const messages = require('../constants/messages');
+const errorCodes = require('../constants/codes/errorCodes.enum');
 
 module.exports = {
     isUserPresent: async (req, res, next) => {
         try {
             const { name, email } = req.query;
+
             if (!name && !email) {
                 const users = await userService.findUsers();
 
-                if (users.length === 0) {
-                    throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.NO_USER);
-                }
                 req.users = users;
-
                 return next();
             }
 
             if (name) {
                 const usersByName = await userService.findUsers({ name });
 
-                if (usersByName.length === 0) {
-                    throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.NO_USER);
-                }
                 req.users = usersByName;
-
                 return next();
             }
-            const usersByEmail = await userService.findUsers({ email });
-            if (usersByEmail.length === 0) {
-                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.NO_USER);
-            }
 
+            const usersByEmail = await userService.findUsers({ email });
             req.users = usersByEmail;
             next();
         } catch (e) {
@@ -45,8 +38,8 @@ module.exports = {
         try {
             const { name } = req.body;
 
-            if (!name || name === '') {
-                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.NO_NAME);
+            if (!name) {
+                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.userMessages.NO_NAME);
             }
 
             next();
@@ -59,17 +52,22 @@ module.exports = {
         try {
             const { email } = req.body;
 
-            if (!email || email === '') {
-                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.NO_EMAIL);
+            if (!email) {
+                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.userMessages.NO_EMAIL);
             }
+
             const checkEmail = email.includes('@');
+
             if (!checkEmail) {
-                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.INVALID_EMAIL);
+                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.userMessages.INVALID_EMAIL);
             }
+
             const userByEmail = await User.findOne({ email });
+
             if (userByEmail) {
-                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.REPEAT_EMAIL);
+                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.userMessages.REPEAT_EMAIL);
             }
+
             next();
         } catch (e) {
             next(e);
@@ -79,9 +77,11 @@ module.exports = {
     checkPassword: (req, res, next) => {
         try {
             const { password } = req.body;
+
             if (password.length < 6) {
-                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.TOO_WEAK_PASSWORD);
+                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.userMessages.TOO_WEAK_PASSWORD);
             }
+
             next();
         } catch (e) {
             next(e);
@@ -91,14 +91,19 @@ module.exports = {
     checkDeleteUser: async (req, res, next) => {
         try {
             const { id } = req.params;
-            if (!id || id === '') {
-                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.INVALID_ID);
+
+            if (!id) {
+                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.userMessages.INVALID_ID);
             }
+
             const user = await userService.findUserById(id);
+
             if (!user) {
-                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.NO_USER);
+                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.userMessages.NO_USER);
             }
+
             await userService.deleteUser({ _id: id });
+
             req.user = user;
             next();
         } catch (e) {

@@ -1,5 +1,6 @@
-const carService = require('../service/car.service');
-const errorCodes = require('../constants/errorCodes.enum');
+const { carService } = require('../service');
+
+const errorCodes = require('../constants/codes/errorCodes.enum');
 
 module.exports = {
     getCars: (req, res, next) => {
@@ -23,6 +24,18 @@ module.exports = {
     deleteCar: (req, res, next) => {
         try {
             res.status(errorCodes.OK).json(`Car with id ${req.car.id} is deleted`);
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    updateCar: async (req, res, next) => {
+        try {
+            const { id } = req.params;
+
+            await carService.updateCar(id, req.body);
+
+            res.status(errorCodes.OK).json(`Car with id ${id} is Update`);
         } catch (e) {
             next(e);
         }

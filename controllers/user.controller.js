@@ -1,5 +1,6 @@
-const userService = require('../service/user.service');
-const errorCodes = require('../constants/errorCodes.enum');
+const { userService } = require('../service');
+
+const errorCodes = require('../constants/codes/errorCodes.enum');
 
 module.exports = {
     getUsers: (req, res, next) => {
@@ -26,6 +27,17 @@ module.exports = {
         } catch (e) {
             next(e);
         }
-    }
+    },
 
+    updateUser: async (req, res, next) => {
+        try {
+            const { id } = req.params;
+
+            await userService.updateUser(id, req.body);
+
+            res.status(errorCodes.OK).json(`User with id ${id} is Update`);
+        } catch (e) {
+            next(e);
+        }
+    }
 };

@@ -1,18 +1,18 @@
 const ErrorHandler = require('../errors/ErrorHandler');
-const carService = require('../service/car.service');
-const messages = require('../messages/car.messages');
-const errorCodes = require('../constants/errorCodes.enum');
+
+const { carService } = require('../service');
+
+const messages = require('../constants/messages');
+const errorCodes = require('../constants/codes/errorCodes.enum');
 
 module.exports = {
     isCarPresent: async (req, res, next) => {
         try {
             const { model, price } = req.query;
+
             if (!model && !price) {
                 const cars = await carService.findCars();
 
-                if (cars.length === 0) {
-                    throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.NO_CAR);
-                }
                 req.cars = cars;
 
                 return next();
@@ -21,17 +21,12 @@ module.exports = {
             if (model) {
                 const carsModel = await carService.findCars({ model });
 
-                if (carsModel.length === 0) {
-                    throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.NO_CAR);
-                }
                 req.cars = carsModel;
 
                 return next();
             }
+
             const carsPrice = await carService.findCars({ price });
-            if (carsPrice.length === 0) {
-                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.NO_CAR);
-            }
 
             req.cars = carsPrice;
             next();
@@ -44,8 +39,8 @@ module.exports = {
         try {
             const { model } = req.body;
 
-            if (!model || model === '') {
-                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.NO_MODEL);
+            if (!model) {
+                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.carMessages.NO_MODEL);
             }
 
             next();
@@ -58,12 +53,12 @@ module.exports = {
         try {
             const { price } = req.body;
 
-            if (!price || price === '') {
-                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.NO_PRICE);
+            if (!price) {
+                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.carMessages.NO_PRICE);
             }
 
             if (typeof price !== 'number') {
-                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.INVALID_PRICE);
+                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.carMessages.INVALID_PRICE);
             }
 
             next();
@@ -75,14 +70,19 @@ module.exports = {
     checkDeleteCar: async (req, res, next) => {
         try {
             const { id } = req.params;
-            if (!id || id === '') {
-                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.INVALID_ID);
+
+            if (!id) {
+                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.carMessages.INVALID_ID);
             }
+
             const car = await carService.findCarById(id);
+
             if (!car) {
-                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.NO_CAR);
+                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.carMessages.NO_CAR);
             }
+
             await carService.deleteCar({ _id: id });
+
             req.car = car;
             next();
         } catch (e) {
