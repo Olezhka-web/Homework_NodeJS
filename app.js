@@ -10,12 +10,13 @@ mongoose.connect('mongodb://localhost:27017/UsersDB');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const { userRouter } = require('./routes');
+const { userRouter, carRouter } = require('./routes');
 
-const messages = require('./messages/messages');
+const messages = require('./messages/user.messages');
 const errorCodes = require('./constants/errorCodes.enum');
 
 app.use('/users', userRouter);
+app.use('/cars', carRouter);
 app.use('*', _notFoundError);
 app.use(_mainErrorHandler);
 

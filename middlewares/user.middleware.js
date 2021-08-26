@@ -1,7 +1,7 @@
 const User = require('../db/models/User');
 const ErrorHandler = require('../errors/ErrorHandler');
 const userService = require('../service/user.service');
-const messages = require('../messages/messages');
+const messages = require('../messages/user.messages');
 const errorCodes = require('../constants/errorCodes.enum');
 
 module.exports = {
