@@ -39,7 +39,7 @@ module.exports = {
         try {
             const { model } = req.body;
 
-            if (!model) {
+            if (!model || model === '') {
                 throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.carMessages.NO_MODEL);
             }
 
@@ -53,7 +53,7 @@ module.exports = {
         try {
             const { price } = req.body;
 
-            if (!price) {
+            if (!price || price === '') {
                 throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.carMessages.NO_PRICE);
             }
 

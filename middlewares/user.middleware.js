@@ -38,7 +38,7 @@ module.exports = {
         try {
             const { name } = req.body;
 
-            if (!name) {
+            if (!name || name === '') {
                 throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.userMessages.NO_NAME);
             }
 
@@ -52,7 +52,7 @@ module.exports = {
         try {
             const { email } = req.body;
 
-            if (!email) {
+            if (!email || email === '') {
                 throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.userMessages.NO_EMAIL);
             }
 
