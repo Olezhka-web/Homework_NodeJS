@@ -7,8 +7,38 @@ const { User } = require('../db/models');
 const messages = require('../constants/messages');
 const errorCodes = require('../constants/codes/errorCodes.enum');
 
+const userValidator = require('../validators/user.validator');
+
 module.exports = {
-    isUserPresent: async (req, res, next) => {
+    validateParams: (req, res, next) => {
+        try {
+            const { error } = userValidator.paramsValidator.validate(req.params);
+
+            if (error) {
+                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.userMessages.INVALID_ID);
+            }
+
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    validateQueryParams: (req, res, next) => {
+        try {
+            const { error } = userValidator.queryParamsValidator.validate(req.query);
+
+            if (error) {
+                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.userMessages.INVALID_SEARCH_OPTION);
+            }
+
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    isUsersPresent: async (req, res, next) => {
         try {
             const { name, email } = req.query;
 
@@ -35,14 +65,17 @@ module.exports = {
         }
     },
 
-    checkUserName: (req, res, next) => {
+    isUserPresent: async (req, res, next) => {
         try {
-            const { name } = req.body;
+            const { id } = req.params;
 
-            if (!name || name === '') {
-                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.userMessages.NO_NAME);
+            const user = await userService.findUserById(id);
+
+            if (!user) {
+                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.userMessages.NOT_FOUND);
             }
 
+            req.user = user;
             next();
         } catch (e) {
             next(e);
@@ -53,34 +86,10 @@ module.exports = {
         try {
             const { email } = req.body;
 
-            if (!email || email === '') {
-                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.userMessages.NO_EMAIL);
-            }
-
-            const checkEmail = email.includes('@');
-
-            if (!checkEmail) {
-                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.userMessages.INVALID_EMAIL);
-            }
-
             const userByEmail = await User.findOne({ email });
 
             if (userByEmail) {
                 throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.userMessages.REPEAT_EMAIL);
-            }
-
-            next();
-        } catch (e) {
-            next(e);
-        }
-    },
-
-    checkPassword: (req, res, next) => {
-        try {
-            const { password } = req.body;
-
-            if (password.length < 6) {
-                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.userMessages.TOO_WEAK_PASSWORD);
             }
 
             next();
@@ -112,21 +121,28 @@ module.exports = {
         }
     },
 
-    checkUserById: async (req, res, next) => {
+    validateCreateUserBody: (req, res, next) => {
         try {
-            const { id } = req.params;
+            const { error } = userValidator.createUserValidator.validate(req.body);
 
-            if (!id) {
-                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.userMessages.INVALID_ID);
+            if (error) {
+                throw new ErrorHandler(errorCodes.BAD_REQUEST, error.details[0].message);
             }
 
-            const user = await userService.findUserById(id);
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
 
-            if (!user) {
-                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.userMessages.NO_USER);
+    validateUpdateUserBody: (req, res, next) => {
+        try {
+            const { error } = userValidator.updateUserValidator.validate(req.body);
+
+            if (error) {
+                throw new ErrorHandler(errorCodes.BAD_REQUEST, error.details[0].message);
             }
 
-            req.user = user;
             next();
         } catch (e) {
             next(e);
