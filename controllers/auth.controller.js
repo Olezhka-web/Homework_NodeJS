@@ -1,16 +1,13 @@
-const errorCodes = require('../constants/codes/errorCodes.enum');
-
 const { passwordService } = require('../service');
 
 module.exports = {
     getLogUser: async (req, res, next) => {
         try {
-            const { password } = req.body;
-            const hashPassword = req.user.password;
+            const { body, user } = req;
 
-            await passwordService.compare(hashPassword, password);
+            await passwordService.compare(user.password, body.password);
 
-            res.status(errorCodes.OK).json(true);
+            res.json(true);
         } catch (e) {
             next(e);
         }

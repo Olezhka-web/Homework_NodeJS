@@ -5,7 +5,7 @@ const errorCodes = require('../constants/codes/errorCodes.enum');
 
 const { authService } = require('../service');
 
-const userValidator = require('../validators/user.validator');
+const { userValidator } = require('../validators');
 
 module.exports = {
     validateLogUserBody: (req, res, next) => {
@@ -13,7 +13,7 @@ module.exports = {
             const { error } = userValidator.logUserValidator.validate(req.body);
 
             if (error) {
-                throw new ErrorHandler(errorCodes.BAD_REQUEST, error.details[0].message);
+                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.userMessages.INVALID_EMAIL_OR_PASSWORD);
             }
 
             next();

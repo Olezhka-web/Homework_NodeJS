@@ -4,9 +4,38 @@ const { carService } = require('../service');
 
 const messages = require('../constants/messages');
 const errorCodes = require('../constants/codes/errorCodes.enum');
+const { carValidator } = require('../validators');
 
 module.exports = {
-    isCarPresent: async (req, res, next) => {
+    validateCarParams: (req, res, next) => {
+        try {
+            const { error } = carValidator.paramsCarValidator.validate(req.params);
+
+            if (error) {
+                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.carMessages.INVALID_ID);
+            }
+
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    validateCarQueryParams: (req, res, next) => {
+        try {
+            const { error } = carValidator.queryParamsCarValidator.validate(req.query);
+
+            if (error) {
+                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.carMessages.INVALID_SEARCH_OPTION);
+            }
+
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    isCarsPresent: async (req, res, next) => {
         try {
             const { model, price } = req.query;
 
@@ -14,53 +43,36 @@ module.exports = {
                 const cars = await carService.findCars();
 
                 req.cars = cars;
-
                 return next();
             }
 
             if (model) {
-                const carsModel = await carService.findCars({ model });
+                const carsByModel = await carService.findCars({ model });
 
-                req.cars = carsModel;
-
+                req.cars = carsByModel;
                 return next();
             }
 
-            const carsPrice = await carService.findCars({ price });
+            const carsByPrice = await carService.findCars({ price });
 
-            req.cars = carsPrice;
+            req.cars = carsByPrice;
             next();
         } catch (e) {
             next(e);
         }
     },
 
-    checkCarModel: (req, res, next) => {
+    isCarPresent: async (req, res, next) => {
         try {
-            const { model } = req.body;
+            const { id } = req.params;
 
-            if (!model || model === '') {
-                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.carMessages.NO_MODEL);
+            const car = await carService.findCarById(id);
+
+            if (!car) {
+                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.carMessages.NO_CAR);
             }
 
-            next();
-        } catch (e) {
-            next(e);
-        }
-    },
-
-    checkCarPrice: (req, res, next) => {
-        try {
-            const { price } = req.body;
-
-            if (!price || price === '') {
-                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.carMessages.NO_PRICE);
-            }
-
-            if (typeof price !== 'number') {
-                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.carMessages.INVALID_PRICE);
-            }
-
+            req.car = car;
             next();
         } catch (e) {
             next(e);
@@ -90,21 +102,28 @@ module.exports = {
         }
     },
 
-    checkCarById: async (req, res, next) => {
+    validateCreateCarBody: (req, res, next) => {
         try {
-            const { id } = req.params;
+            const { error } = carValidator.createCarValidator.validate(req.body);
 
-            if (!id) {
-                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.carMessages.INVALID_ID);
+            if (error) {
+                throw new ErrorHandler(errorCodes.BAD_REQUEST, error.details[0].message);
             }
 
-            const car = await carService.findCarById(id);
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
 
-            if (!car) {
-                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.carMessages.NO_CAR);
+    validateUpdateCarBody: (req, res, next) => {
+        try {
+            const { error } = carValidator.updateCarValidator.validate(req.body);
+
+            if (error) {
+                throw new ErrorHandler(errorCodes.BAD_REQUEST, error.details[0].message);
             }
 
-            req.car = car;
             next();
         } catch (e) {
             next(e);

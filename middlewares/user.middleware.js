@@ -7,12 +7,12 @@ const { User } = require('../db/models');
 const messages = require('../constants/messages');
 const errorCodes = require('../constants/codes/errorCodes.enum');
 
-const userValidator = require('../validators/user.validator');
+const { userValidator } = require('../validators');
 
 module.exports = {
-    validateParams: (req, res, next) => {
+    validateUserParams: (req, res, next) => {
         try {
-            const { error } = userValidator.paramsValidator.validate(req.params);
+            const { error } = userValidator.paramsUserValidator.validate(req.params);
 
             if (error) {
                 throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.userMessages.INVALID_ID);
@@ -24,9 +24,9 @@ module.exports = {
         }
     },
 
-    validateQueryParams: (req, res, next) => {
+    validateUserQueryParams: (req, res, next) => {
         try {
-            const { error } = userValidator.queryParamsValidator.validate(req.query);
+            const { error } = userValidator.queryParamsUserValidator.validate(req.query);
 
             if (error) {
                 throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.userMessages.INVALID_SEARCH_OPTION);

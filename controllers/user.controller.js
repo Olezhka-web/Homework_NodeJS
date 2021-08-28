@@ -9,7 +9,7 @@ module.exports = {
         try {
             const userNormalizedUser = req.users.map((user) => userNormalizator(user));
 
-            res.status(errorCodes.OK).json(userNormalizedUser);
+            res.json(userNormalizedUser);
         } catch (e) {
             next(e);
         }
@@ -19,7 +19,7 @@ module.exports = {
         try {
             const userNormalizedUser = userNormalizator(req.user);
 
-            res.status(errorCodes.OK).json(userNormalizedUser);
+            res.json(userNormalizedUser);
         } catch (e) {
             next(e);
         }
@@ -43,7 +43,7 @@ module.exports = {
 
     deleteUser: (req, res, next) => {
         try {
-            res.status(errorCodes.OK).json(`User with id ${req.user.id} is deleted`);
+            res.status(errorCodes.DELETED).json(`User with id ${req.user.id} is deleted`);
         } catch (e) {
             next(e);
         }
@@ -55,7 +55,7 @@ module.exports = {
 
             await userService.updateUser(id, req.body);
 
-            res.status(errorCodes.OK).json(`User with id ${id} is Update`);
+            res.status(errorCodes.CREATED).json(`User with id ${id} is Update`);
         } catch (e) {
             next(e);
         }

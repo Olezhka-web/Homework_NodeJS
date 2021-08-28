@@ -22,7 +22,7 @@ app.use('*', _notFoundError);
 app.use(_mainErrorHandler);
 
 app.listen(PORT, () => {
-    console.log('App is ready on port 5000');
+    console.log(`App is ready on port ${PORT}`);
 });
 
 function _notFoundError(err, req, res, next) {

@@ -4,13 +4,26 @@ const { carController } = require('../controllers');
 
 const { carMiddleware } = require('../middlewares');
 
-router.get('/', carMiddleware.isCarPresent, carController.getCars);
-router.post('/', carMiddleware.checkCarModel, carMiddleware.checkCarPrice, carController.createCar);
-router.delete('/:id', carMiddleware.checkDeleteCar, carController.deleteCar);
+router.get('/',
+    carMiddleware.validateCarQueryParams,
+    carMiddleware.isCarsPresent,
+    carController.getCars);
+router.post('/',
+    carMiddleware.validateCreateCarBody,
+    carController.createCar);
+
+router.get('/:id',
+    carMiddleware.validateCarParams,
+    carMiddleware.isCarPresent,
+    carController.getCar);
+router.delete('/:id',
+    carMiddleware.validateCarParams,
+    carMiddleware.checkDeleteCar,
+    carController.deleteCar);
 router.put('/:id',
-    carMiddleware.checkCarModel,
-    carMiddleware.checkCarPrice,
-    carMiddleware.checkCarById,
+    carMiddleware.validateCarParams,
+    carMiddleware.validateUpdateCarBody,
+    carMiddleware.isCarPresent,
     carController.updateCar);
 
 module.exports = router;

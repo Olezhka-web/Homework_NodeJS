@@ -5,5 +5,6 @@ module.exports = {
     INVALID_PRICE: 'Not Valid PRICE, available only numbers',
     NO_CAR: 'There is no car',
     NO_MODEL: 'Enter Your Model',
-    NO_PRICE: 'Enter Your Price'
+    NO_PRICE: 'Enter Your Price',
+    INVALID_SEARCH_OPTION: 'Invalid search option'
 };
