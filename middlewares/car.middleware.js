@@ -4,23 +4,9 @@ const { carService } = require('../service');
 
 const messages = require('../constants/messages');
 const errorCodes = require('../constants/codes/errorCodes.enum');
-const { carValidator, globalValidator } = require('../validators');
+const { carValidator } = require('../validators');
 
 module.exports = {
-    validateCarParams: (req, res, next) => {
-        try {
-            const { error } = globalValidator.paramsValidator.validate(req.params);
-
-            if (error) {
-                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.carMessages.INVALID_ID);
-            }
-
-            next();
-        } catch (e) {
-            next(e);
-        }
-    },
-
     validateCarQueryParams: (req, res, next) => {
         try {
             const { error } = carValidator.queryParamsCarValidator.validate(req.query);

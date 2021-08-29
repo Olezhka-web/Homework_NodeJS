@@ -2,7 +2,7 @@ const router = require('express').Router();
 
 const { carController } = require('../controllers');
 
-const { carMiddleware } = require('../middlewares');
+const { carMiddleware, globalMiddleware } = require('../middlewares');
 
 router.get('/',
     carMiddleware.validateCarQueryParams,
@@ -13,15 +13,15 @@ router.post('/',
     carController.createCar);
 
 router.get('/:id',
-    carMiddleware.validateCarParams,
+    globalMiddleware.validateParams,
     carMiddleware.isCarPresent,
     carController.getCar);
 router.delete('/:id',
-    carMiddleware.validateCarParams,
+    globalMiddleware.validateParams,
     carMiddleware.checkDeleteCar,
     carController.deleteCar);
 router.put('/:id',
-    carMiddleware.validateCarParams,
+    globalMiddleware.validateParams,
     carMiddleware.validateUpdateCarBody,
     carMiddleware.isCarPresent,
     carController.updateCar);

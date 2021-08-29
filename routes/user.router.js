@@ -2,7 +2,7 @@ const router = require('express').Router();
 
 const { userController } = require('../controllers');
 
-const { userMiddleware } = require('../middlewares');
+const { userMiddleware, globalMiddleware } = require('../middlewares');
 
 router.get('/',
     userMiddleware.validateUserQueryParams,
@@ -14,15 +14,15 @@ router.post('/',
     userController.createUser);
 
 router.get('/:id',
-    userMiddleware.validateUserParams,
+    globalMiddleware.validateParams,
     userMiddleware.isUserPresent,
     userController.getUser);
 router.delete('/:id',
-    userMiddleware.validateUserParams,
+    globalMiddleware.validateParams,
     userMiddleware.checkDeleteUser,
     userController.deleteUser);
 router.put('/:id',
-    userMiddleware.validateUserParams,
+    globalMiddleware.validateParams,
     userMiddleware.validateUpdateUserBody,
     userMiddleware.isUserPresent,
     userMiddleware.checkUniqueEmail,
