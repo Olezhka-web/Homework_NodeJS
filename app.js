@@ -1,11 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
-const { PORT } = require('./config/variables');
+const { PORT, dbUri } = require('./config/variables');
 
 const app = express();
 
-mongoose.connect('mongodb://localhost:27017/UsersDB');
+mongoose.connect(dbUri);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

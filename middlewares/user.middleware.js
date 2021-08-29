@@ -7,12 +7,12 @@ const { User } = require('../db/models');
 const messages = require('../constants/messages');
 const errorCodes = require('../constants/codes/errorCodes.enum');
 
-const { userValidator } = require('../validators');
+const { userValidator, globalValidator } = require('../validators');
 
 module.exports = {
     validateUserParams: (req, res, next) => {
         try {
-            const { error } = userValidator.paramsUserValidator.validate(req.params);
+            const { error } = globalValidator.paramsValidator.validate(req.params);
 
             if (error) {
                 throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.userMessages.INVALID_ID);

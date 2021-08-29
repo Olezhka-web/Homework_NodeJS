@@ -1,9 +1,4 @@
 const Joi = require('joi');
-const { ID_REGEXP } = require('../constants/RegExp/user.RegExp');
-
-const paramsCarValidator = Joi.object({
-    id: Joi.string().regex(ID_REGEXP).trim()
-});
 
 const queryParamsCarValidator = Joi.object({
     model: Joi.string().alphanum().min(2).max(30)
@@ -33,7 +28,6 @@ const updateCarValidator = Joi.object({
 });
 
 module.exports = {
-    paramsCarValidator,
     queryParamsCarValidator,
     createCarValidator,
     updateCarValidator
