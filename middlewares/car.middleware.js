@@ -4,7 +4,10 @@ const { carService } = require('../service');
 
 const messages = require('../constants/messages');
 const errorCodes = require('../constants/codes/errorCodes.enum');
+
 const { carValidator } = require('../validators');
+
+const { Car } = require('../db/models');
 
 module.exports = {
     validateCarQueryParams: (req, res, next) => {
@@ -48,46 +51,6 @@ module.exports = {
         }
     },
 
-    isCarPresent: async (req, res, next) => {
-        try {
-            const { id } = req.params;
-
-            const car = await carService.findCarById(id);
-
-            if (!car) {
-                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.carMessages.NO_CAR);
-            }
-
-            req.car = car;
-            next();
-        } catch (e) {
-            next(e);
-        }
-    },
-
-    checkDeleteCar: async (req, res, next) => {
-        try {
-            const { id } = req.params;
-
-            if (!id) {
-                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.carMessages.INVALID_ID);
-            }
-
-            const car = await carService.findCarById(id);
-
-            if (!car) {
-                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.carMessages.NO_CAR);
-            }
-
-            await carService.deleteCar({ _id: id });
-
-            req.car = car;
-            next();
-        } catch (e) {
-            next(e);
-        }
-    },
-
     validateCreateCarBody: (req, res, next) => {
         try {
             const { error } = carValidator.createCarValidator.validate(req.body);
@@ -110,6 +73,23 @@ module.exports = {
                 throw new ErrorHandler(errorCodes.BAD_REQUEST, error.details[0].message);
             }
 
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    getCarByDynamicParam: (paramName, searchIn = 'body', dbFilled = paramName) => async (req, res, next) => {
+        try {
+            const value = req[searchIn][paramName];
+
+            const car = await Car.findById({ [dbFilled]: value });
+
+            if (!car) {
+                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.userMessages.NOT_FOUND);
+            }
+
+            req.car = car;
             next();
         } catch (e) {
             next(e);

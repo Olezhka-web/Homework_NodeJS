@@ -15,16 +15,16 @@ router.post('/',
 
 router.get('/:id',
     globalMiddleware.validateParams,
-    userMiddleware.isUserPresent,
+    userMiddleware.getUserByDynamicParam('id', 'params', '_id'),
     userController.getUser);
 router.delete('/:id',
     globalMiddleware.validateParams,
-    userMiddleware.checkDeleteUser,
+    userMiddleware.getUserByDynamicParam('id', 'params', '_id'),
     userController.deleteUser);
 router.put('/:id',
     globalMiddleware.validateParams,
     userMiddleware.validateUpdateUserBody,
-    userMiddleware.isUserPresent,
+    userMiddleware.getUserByDynamicParam('id', 'params', '_id'),
     userMiddleware.checkUniqueEmail,
     userController.updateUser);
 

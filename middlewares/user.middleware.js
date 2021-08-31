@@ -51,23 +51,6 @@ module.exports = {
         }
     },
 
-    isUserPresent: async (req, res, next) => {
-        try {
-            const { id } = req.params;
-
-            const user = await userService.findUserById(id);
-
-            if (!user) {
-                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.userMessages.NOT_FOUND);
-            }
-
-            req.user = user;
-            next();
-        } catch (e) {
-            next(e);
-        }
-    },
-
     checkUniqueEmail: async (req, res, next) => {
         try {
             const { email } = req.body;
@@ -78,29 +61,6 @@ module.exports = {
                 throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.userMessages.REPEAT_EMAIL);
             }
 
-            next();
-        } catch (e) {
-            next(e);
-        }
-    },
-
-    checkDeleteUser: async (req, res, next) => {
-        try {
-            const { id } = req.params;
-
-            if (!id) {
-                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.userMessages.INVALID_ID);
-            }
-
-            const user = await userService.findUserById(id);
-
-            if (!user) {
-                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.userMessages.NO_USER);
-            }
-
-            await userService.deleteUser({ _id: id });
-
-            req.user = user;
             next();
         } catch (e) {
             next(e);
@@ -129,6 +89,23 @@ module.exports = {
                 throw new ErrorHandler(errorCodes.BAD_REQUEST, error.details[0].message);
             }
 
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    getUserByDynamicParam: (paramName, searchIn = 'body', dbFilled = paramName) => async (req, res, next) => {
+        try {
+            const value = req[searchIn][paramName];
+
+            const user = await User.findById({ [dbFilled]: value });
+
+            if (!user) {
+                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.userMessages.NOT_FOUND);
+            }
+
+            req.user = user;
             next();
         } catch (e) {
             next(e);

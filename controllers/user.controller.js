@@ -41,9 +41,13 @@ module.exports = {
         }
     },
 
-    deleteUser: (req, res, next) => {
+    deleteUser: async (req, res, next) => {
         try {
-            res.status(errorCodes.DELETED).json(`User with id ${req.user.id} is deleted`);
+            const { _id } = req.user;
+
+            await userService.deleteUser({ _id });
+
+            res.status(errorCodes.DELETED).json(`User with id ${_id} is deleted`);
         } catch (e) {
             next(e);
         }

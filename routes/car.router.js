@@ -14,16 +14,16 @@ router.post('/',
 
 router.get('/:id',
     globalMiddleware.validateParams,
-    carMiddleware.isCarPresent,
+    carMiddleware.getCarByDynamicParam('id', 'params', '_id'),
     carController.getCar);
 router.delete('/:id',
     globalMiddleware.validateParams,
-    carMiddleware.checkDeleteCar,
+    carMiddleware.getCarByDynamicParam('id', 'params', '_id'),
     carController.deleteCar);
 router.put('/:id',
     globalMiddleware.validateParams,
     carMiddleware.validateUpdateCarBody,
-    carMiddleware.isCarPresent,
+    carMiddleware.getCarByDynamicParam('id', 'params', '_id'),
     carController.updateCar);
 
 module.exports = router;
