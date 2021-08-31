@@ -83,7 +83,7 @@ module.exports = {
         try {
             const value = req[searchIn][paramName];
 
-            const car = await Car.findById({ [dbFilled]: value });
+            const car = await Car.findOne({ [dbFilled]: value });
 
             if (!car) {
                 throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.userMessages.NOT_FOUND);

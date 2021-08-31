@@ -99,7 +99,7 @@ module.exports = {
         try {
             const value = req[searchIn][paramName];
 
-            const user = await User.findById({ [dbFilled]: value });
+            const user = await User.findOne({ [dbFilled]: value });
 
             if (!user) {
                 throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.userMessages.NOT_FOUND);
