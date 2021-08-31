@@ -20,6 +20,7 @@ router.get('/:id',
 router.delete('/:id',
     globalMiddleware.validateParams,
     userMiddleware.getUserByDynamicParam('id', 'params', '_id'),
+    userMiddleware.checkUserRole(['admin']),
     userController.deleteUser);
 router.put('/:id',
     globalMiddleware.validateParams,

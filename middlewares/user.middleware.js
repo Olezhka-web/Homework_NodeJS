@@ -110,5 +110,23 @@ module.exports = {
         } catch (e) {
             next(e);
         }
+    },
+
+    checkUserRole: (rolesArr = []) => (req, res, next) => {
+        try {
+            const { role } = req.user;
+
+            if (!rolesArr.length) {
+                return next();
+            }
+
+            if (!rolesArr.includes(role)) {
+                throw new ErrorHandler(errorCodes.FORBIDDEN, messages.userMessages.FORBIDDEN);
+            }
+
+            next();
+        } catch (e) {
+            next(e);
+        }
     }
 };
