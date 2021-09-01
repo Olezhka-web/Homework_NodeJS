@@ -1,9 +1,9 @@
 const Joi = require('joi');
 
-const { ID_REGEXP } = require('../constants/RegExp/user.RegExp');
+const { RegExp } = require('../constants');
 
 const paramsValidator = Joi.object({
-    id: Joi.string().regex(ID_REGEXP).trim()
+    id: Joi.string().regex(RegExp.ID_REGEXP).trim()
 });
 
 module.exports = {

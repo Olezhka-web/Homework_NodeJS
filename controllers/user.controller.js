@@ -1,15 +1,15 @@
 const { userService, passwordService } = require('../service');
 
-const errorCodes = require('../constants/codes/errorCodes.enum');
+const { errorCodes } = require('../constants');
 
-const { userNormalizator } = require('../utils/user.util');
+const { userUtil } = require('../utils');
 
 module.exports = {
     getUsers: async (req, res, next) => {
         try {
             const users = await userService.findUsers(req.query);
 
-            const userNormalizedUser = users.map((user) => userNormalizator(user));
+            const userNormalizedUser = users.map((user) => userUtil.userNormalizator(user));
 
             res.json(userNormalizedUser);
         } catch (e) {
@@ -19,7 +19,7 @@ module.exports = {
 
     getUser: (req, res, next) => {
         try {
-            const userNormalizedUser = userNormalizator(req.user);
+            const userNormalizedUser = userUtil.userNormalizator(req.user);
 
             res.json(userNormalizedUser);
         } catch (e) {
@@ -35,7 +35,7 @@ module.exports = {
 
             const createdUser = await userService.createUser({ ...req.body, password: hashedPassword });
 
-            const userNormalizedUser = userNormalizator(createdUser);
+            const userNormalizedUser = userUtil.userNormalizator(createdUser);
 
             res.status(errorCodes.CREATED).json(userNormalizedUser);
         } catch (e) {

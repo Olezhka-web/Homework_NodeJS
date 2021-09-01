@@ -1,6 +1,6 @@
 const { carService } = require('../service');
 
-const errorCodes = require('../constants/codes/errorCodes.enum');
+const { errorCodes } = require('../constants');
 
 module.exports = {
     getCars: async (req, res, next) => {

@@ -1,9 +1,8 @@
-const ErrorHandler = require('../errors/ErrorHandler');
+const { ErrorHandler } = require('../errors');
 
-const { User } = require('../db/models');
+const { models } = require('../db');
 
-const messages = require('../constants/messages');
-const errorCodes = require('../constants/codes/errorCodes.enum');
+const { messages, errorCodes } = require('../constants');
 
 const { userValidator } = require('../validators');
 
@@ -26,7 +25,7 @@ module.exports = {
         try {
             const { email } = req.body;
 
-            const userByEmail = await User.findOne({ email });
+            const userByEmail = await models.User.findOne({ email });
 
             if (userByEmail) {
                 throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.userMessages.REPEAT_EMAIL);
@@ -66,11 +65,11 @@ module.exports = {
         }
     },
 
-    getUserByDynamicParam: (paramName, searchIn = 'body', dbFilled = paramName) => async (req, res, next) => {
+    getUserByDynamicParam: (paramName, searchIn = 'body', dbField = paramName) => async (req, res, next) => {
         try {
             const value = req[searchIn][paramName];
 
-            const user = await User.findOne({ [dbFilled]: value });
+            const user = await models.User.findOne({ [dbField]: value });
 
             if (!user) {
                 throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.userMessages.NOT_FOUND);

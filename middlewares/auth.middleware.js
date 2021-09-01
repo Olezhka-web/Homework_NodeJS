@@ -1,7 +1,6 @@
-const ErrorHandler = require('../errors/ErrorHandler');
+const { ErrorHandler } = require('../errors');
 
-const messages = require('../constants/messages');
-const errorCodes = require('../constants/codes/errorCodes.enum');
+const { messages, errorCodes } = require('../constants');
 
 const { authService } = require('../service');
 

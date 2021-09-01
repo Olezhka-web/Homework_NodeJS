@@ -1,5 +1,5 @@
-const { User } = require('../db/models');
+const { models } = require('../db');
 
 module.exports = {
-    findUser: (filterObject) => User.findOne(filterObject),
+    findUser: (filterObject) => models.User.findOne(filterObject),
 };

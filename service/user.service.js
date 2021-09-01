@@ -1,11 +1,11 @@
-const { User } = require('../db/models');
+const { models } = require('../db');
 
 module.exports = {
-    findUsers: (filterObject) => User.find(filterObject),
+    findUsers: (filterObject) => models.User.find(filterObject),
 
-    createUser: (userObject) => User.create(userObject),
+    createUser: (userObject) => models.User.create(userObject),
 
-    deleteUser: (id) => User.deleteOne(id),
+    deleteUser: (id) => models.User.deleteOne(id),
 
-    updateUser: (id, userObject) => User.findByIdAndUpdate(id, userObject)
+    updateUser: (id, userObject) => models.User.findByIdAndUpdate(id, userObject)
 };

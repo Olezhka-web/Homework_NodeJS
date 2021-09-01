@@ -1,11 +1,11 @@
-const { Car } = require('../db/models');
+const { models } = require('../db');
 
 module.exports = {
-    findCars: (filterObject) => Car.find(filterObject),
+    findCars: (filterObject) => models.Car.find(filterObject),
 
-    createCar: (carObject) => Car.create(carObject),
+    createCar: (carObject) => models.Car.create(carObject),
 
-    deleteCar: (id) => Car.deleteOne(id),
+    deleteCar: (id) => models.Car.deleteOne(id),
 
-    updateCar: (id, carObject) => Car.findByIdAndUpdate(id, carObject)
+    updateCar: (id, carObject) => models.Car.findByIdAndUpdate(id, carObject)
 };

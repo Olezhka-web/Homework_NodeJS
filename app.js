@@ -3,19 +3,18 @@ const mongoose = require('mongoose');
 
 require('dotenv').config();
 
-const { PORT, DB_URI } = require('./config/variables');
+const { variables } = require('./config');
 
 const app = express();
 
-mongoose.connect(DB_URI);
+mongoose.connect(variables.DB_URI);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const { authRouter, userRouter, carRouter } = require('./routes');
 
-const messages = require('./constants/messages');
-const errorCodes = require('./constants/codes/errorCodes.enum');
+const { messages, errorCodes } = require('./constants');
 
 app.use('/auth', authRouter);
 app.use('/users', userRouter);
@@ -23,8 +22,8 @@ app.use('/cars', carRouter);
 app.use('*', _notFoundError);
 app.use(_mainErrorHandler);
 
-app.listen(PORT, () => {
-    console.log(`App is ready on port ${PORT}`);
+app.listen(variables.PORT, () => {
+    console.log(`App is ready on port ${variables.PORT}`);
 });
 
 function _notFoundError(err, req, res, next) {

@@ -1,9 +1,9 @@
 const Joi = require('joi');
-const { EMAIL_REGEXP, PASSWORD_REGEXP } = require('../constants/RegExp/user.RegExp');
+const { RegExp } = require('../constants');
 
 const queryParamsUserValidator = Joi.object({
     name: Joi.string().min(2).max(10).trim(),
-    email: Joi.string().regex(EMAIL_REGEXP).trim()
+    email: Joi.string().regex(RegExp.EMAIL_REGEXP).trim()
 });
 
 const createUserValidator = Joi.object({
@@ -14,8 +14,8 @@ const createUserValidator = Joi.object({
             .max(30)
             .trim()
             .required(),
-    email: Joi.string().regex(EMAIL_REGEXP).trim().required(),
-    password: Joi.string().regex(PASSWORD_REGEXP).trim().required(),
+    email: Joi.string().regex(RegExp.EMAIL_REGEXP).trim().required(),
+    password: Joi.string().regex(RegExp.PASSWORD_REGEXP).trim().required(),
 });
 
 const updateUserValidator = Joi.object({
@@ -25,11 +25,11 @@ const updateUserValidator = Joi.object({
             .min(2)
             .max(30)
             .trim(),
-    email: Joi.string().regex(EMAIL_REGEXP).trim()
+    email: Joi.string().regex(RegExp.EMAIL_REGEXP).trim()
 });
 
 const logUserValidator = Joi.object({
-    email: Joi.string().regex(EMAIL_REGEXP).trim().required(),
+    email: Joi.string().regex(RegExp.EMAIL_REGEXP).trim().required(),
     password: Joi.string().trim().required()
 });
 

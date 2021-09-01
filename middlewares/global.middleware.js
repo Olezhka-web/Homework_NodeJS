@@ -1,9 +1,8 @@
 const { globalValidator } = require('../validators');
 
-const ErrorHandler = require('../errors/ErrorHandler');
+const { ErrorHandler } = require('../errors');
 
-const errorCodes = require('../constants/codes/errorCodes.enum');
-const messages = require('../constants/messages');
+const { messages, errorCodes } = require('../constants');
 
 module.exports = {
     validateParams: (req, res, next) => {
