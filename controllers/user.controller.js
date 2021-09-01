@@ -5,9 +5,11 @@ const errorCodes = require('../constants/codes/errorCodes.enum');
 const { userNormalizator } = require('../utils/user.util');
 
 module.exports = {
-    getUsers: (req, res, next) => {
+    getUsers: async (req, res, next) => {
         try {
-            const userNormalizedUser = req.users.map((user) => userNormalizator(user));
+            const users = await userService.findUsers(req.query);
+
+            const userNormalizedUser = users.map((user) => userNormalizator(user));
 
             res.json(userNormalizedUser);
         } catch (e) {

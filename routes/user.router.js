@@ -6,7 +6,6 @@ const { userMiddleware, globalMiddleware } = require('../middlewares');
 
 router.get('/',
     userMiddleware.validateUserQueryParams,
-    userMiddleware.isUsersPresent,
     userController.getUsers);
 router.post('/',
     userMiddleware.validateCreateUserBody,

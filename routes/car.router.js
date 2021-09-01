@@ -6,7 +6,6 @@ const { carMiddleware, globalMiddleware } = require('../middlewares');
 
 router.get('/',
     carMiddleware.validateCarQueryParams,
-    carMiddleware.isCarsPresent,
     carController.getCars);
 router.post('/',
     carMiddleware.validateCreateCarBody,

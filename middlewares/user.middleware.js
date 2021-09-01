@@ -1,7 +1,5 @@
 const ErrorHandler = require('../errors/ErrorHandler');
 
-const { userService } = require('../service');
-
 const { User } = require('../db/models');
 
 const messages = require('../constants/messages');
@@ -18,33 +16,6 @@ module.exports = {
                 throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.userMessages.INVALID_SEARCH_OPTION);
             }
 
-            next();
-        } catch (e) {
-            next(e);
-        }
-    },
-
-    isUsersPresent: async (req, res, next) => {
-        try {
-            const { name, email } = req.query;
-
-            if (!name && !email) {
-                const users = await userService.findUsers();
-
-                req.users = users;
-                return next();
-            }
-
-            if (name) {
-                const usersByName = await userService.findUsers({ name });
-
-                req.users = usersByName;
-                return next();
-            }
-
-            const usersByEmail = await userService.findUsers({ email });
-
-            req.users = usersByEmail;
             next();
         } catch (e) {
             next(e);

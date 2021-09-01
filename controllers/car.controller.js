@@ -3,9 +3,11 @@ const { carService } = require('../service');
 const errorCodes = require('../constants/codes/errorCodes.enum');
 
 module.exports = {
-    getCars: (req, res, next) => {
+    getCars: async (req, res, next) => {
         try {
-            res.json(req.cars);
+            const cars = await carService.findCars(req.query);
+
+            res.json(cars);
         } catch (e) {
             next(e);
         }

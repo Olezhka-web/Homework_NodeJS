@@ -1,7 +1,5 @@
 const ErrorHandler = require('../errors/ErrorHandler');
 
-const { carService } = require('../service');
-
 const messages = require('../constants/messages');
 const errorCodes = require('../constants/codes/errorCodes.enum');
 
@@ -18,33 +16,6 @@ module.exports = {
                 throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.carMessages.INVALID_SEARCH_OPTION);
             }
 
-            next();
-        } catch (e) {
-            next(e);
-        }
-    },
-
-    isCarsPresent: async (req, res, next) => {
-        try {
-            const { model, price } = req.query;
-
-            if (!model && !price) {
-                const cars = await carService.findCars();
-
-                req.cars = cars;
-                return next();
-            }
-
-            if (model) {
-                const carsByModel = await carService.findCars({ model });
-
-                req.cars = carsByModel;
-                return next();
-            }
-
-            const carsByPrice = await carService.findCars({ price });
-
-            req.cars = carsByPrice;
             next();
         } catch (e) {
             next(e);
