@@ -9,12 +9,4 @@ router.post('/',
     authMiddleware.isLogUserPresent,
     authController.getLogUser);
 
-router.post('/logout',
-    authMiddleware.validateAccessToken,
-    authController.getLogoutUser);
-
-router.post('/refresh',
-    authMiddleware.validateRefreshToken,
-    authController.refresh);
-
 module.exports = router;

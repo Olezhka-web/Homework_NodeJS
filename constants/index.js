@@ -3,7 +3,5 @@ module.exports = {
     dynamicParams: require('./dynamicParams/dynamicParams'),
     messages: require('./messages'),
     RegExp: require('./RegExp/user.RegExp'),
-    roles: require('./roles/user-roles.enum'),
-    header: require('./header/headerName'),
-    database_tables: require('./database-tables/database-tables.enum')
+    roles: require('./roles/user-roles.enum')
 };

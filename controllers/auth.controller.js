@@ -1,10 +1,4 @@
-const { passwordService, authService } = require('../service');
-
-const { userUtil } = require('../utils');
-
-const { models } = require('../db');
-
-const { header, messages } = require('../constants');
+const { passwordService } = require('../service');
 
 module.exports = {
     getLogUser: async (req, res, next) => {
@@ -13,46 +7,7 @@ module.exports = {
 
             await passwordService.compare(user.password, body.password);
 
-            const tokenPair = authService.generateTokenPair();
-
-            await models.OAuth.create({ ...tokenPair, user: user._id });
-
-            res.json({
-                ...tokenPair,
-                user: userUtil.userNormalizator(user)
-            });
-        } catch (e) {
-            next(e);
-        }
-    },
-
-    getLogoutUser: async (req, res, next) => {
-        try {
-            const access_token = req.get(header.AUTHORIZATION);
-
-            await models.OAuth.deleteOne({ access_token });
-
-            res.json(messages.userMessages.USER_LOGGED_OUT);
-        } catch (e) {
-            next(e);
-        }
-    },
-
-    refresh: async (req, res, next) => {
-        try {
-            const refresh_token = req.get(header.AUTHORIZATION);
-            const user = req.loggedUser;
-
-            await models.OAuth.deleteOne({ refresh_token });
-
-            const tokenPair = authService.generateTokenPair();
-
-            await models.OAuth.create({ ...tokenPair, user: user._id });
-
-            res.json({
-                ...tokenPair,
-                user: userUtil.userNormalizator(user)
-            });
+            res.json(true);
         } catch (e) {
             next(e);
         }

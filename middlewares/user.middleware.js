@@ -84,17 +84,13 @@ module.exports = {
 
     checkUserRole: (rolesArr = []) => (req, res, next) => {
         try {
-            const { user, loggedUser } = req;
-
-            if (user._id.toString() === loggedUser._id.toString()) {
-                return next();
-            }
+            const { user } = req;
 
             if (!rolesArr.length) {
                 return next();
             }
 
-            if (!rolesArr.includes(loggedUser.role)) {
+            if (!rolesArr.includes(user.role)) {
                 throw new ErrorHandler(errorCodes.FORBIDDEN, messages.userMessages.FORBIDDEN);
             }
 
