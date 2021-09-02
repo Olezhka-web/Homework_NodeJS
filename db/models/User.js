@@ -1,6 +1,6 @@
 const { Schema, model } = require('mongoose');
 
-const { roles } = require('../../constants');
+const { roles, database_tables } = require('../../constants');
 
 const userSchema = new Schema({
     name: {
@@ -28,4 +28,4 @@ const userSchema = new Schema({
     }
 }, { timestamps: true });
 
-module.exports = model('user', userSchema);
+module.exports = model(database_tables.USER, userSchema);

@@ -1,10 +1,12 @@
 const { ErrorHandler } = require('../errors');
 
-const { messages, errorCodes } = require('../constants');
+const { messages, errorCodes, header } = require('../constants');
 
 const { authService } = require('../service');
 
 const { userValidator } = require('../validators');
+
+const { models } = require('../db');
 
 module.exports = {
     validateLogUserBody: (req, res, next) => {
@@ -37,4 +39,51 @@ module.exports = {
             next(e);
         }
     },
+
+    validateAccessToken: async (req, res, next) => {
+        try {
+            const access_token = req.get(header.AUTHORIZATION);
+
+            if (!access_token) {
+                throw new ErrorHandler(errorCodes.UNAUTHORIZED, messages.userMessages.NO_TOKEN);
+            }
+
+            await authService.verifyToken(access_token);
+
+            const tokenFromDB = await models.OAuth.findOne({ access_token }).populate('user');
+
+            if (!tokenFromDB) {
+                throw new ErrorHandler(errorCodes.UNAUTHORIZED, messages.userMessages.INVALID_TOKEN);
+            }
+
+            req.loggedUser = tokenFromDB.user;
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    validateRefreshToken: async (req, res, next) => {
+        try {
+            const refresh_token = req.get(header.AUTHORIZATION);
+
+            if (!refresh_token) {
+                throw new ErrorHandler(errorCodes.UNAUTHORIZED, messages.userMessages.NO_TOKEN);
+            }
+
+            await authService.verifyToken(refresh_token, 'refresh');
+
+            const tokenFromDB = await models.OAuth.findOne({ refresh_token }).populate('user');
+
+            if (!tokenFromDB) {
+                throw new ErrorHandler(errorCodes.UNAUTHORIZED, messages.userMessages.INVALID_TOKEN);
+            }
+
+            req.loggedUser = tokenFromDB.user;
+
+            next();
+        } catch (e) {
+            next(e);
+        }
+    }
 };

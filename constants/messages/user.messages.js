@@ -11,5 +11,8 @@ module.exports = {
     NOT_FOUND: 'Not Found',
     INVALID_EMAIL_OR_PASSWORD: 'Email Or Password Is Wrong',
     INVALID_SEARCH_OPTION: 'Invalid search option',
-    FORBIDDEN: 'Forbidden'
+    FORBIDDEN: 'Forbidden',
+    NO_TOKEN: 'No Token',
+    INVALID_TOKEN: 'Invalid Token',
+    USER_LOGGED_OUT: 'User Logged out'
 };

@@ -2,7 +2,7 @@ const router = require('express').Router();
 
 const { userController } = require('../controllers');
 
-const { userMiddleware, globalMiddleware } = require('../middlewares');
+const { userMiddleware, globalMiddleware, authMiddleware } = require('../middlewares');
 
 const { dynamicParams } = require('../constants');
 
@@ -20,13 +20,16 @@ router.get('/:id',
     userController.getUser);
 router.delete('/:id',
     globalMiddleware.validateParams,
+    authMiddleware.validateAccessToken,
     userMiddleware.getUserByDynamicParam(dynamicParams.ID, dynamicParams.PARAMS, dynamicParams.DB_FIELD),
     userMiddleware.checkUserRole(['admin']),
     userController.deleteUser);
 router.put('/:id',
     globalMiddleware.validateParams,
     userMiddleware.validateUpdateUserBody,
+    authMiddleware.validateAccessToken,
     userMiddleware.getUserByDynamicParam(dynamicParams.ID, dynamicParams.PARAMS, dynamicParams.DB_FIELD),
+    userMiddleware.checkUserRole(['current_user']),
     userMiddleware.checkUniqueEmail,
     userController.updateUser);
 
