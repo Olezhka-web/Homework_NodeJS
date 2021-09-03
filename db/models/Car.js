@@ -1,5 +1,7 @@
 const { Schema, model } = require('mongoose');
 
+const { database_tables } = require('../../constants');
+
 const carScheme = new Schema({
     model: {
         type: String,
@@ -13,4 +15,4 @@ const carScheme = new Schema({
     }
 }, { timestamps: true });
 
-module.exports = model('Car', carScheme);
+module.exports = model(database_tables.CAR, carScheme);
