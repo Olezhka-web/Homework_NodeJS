@@ -4,7 +4,7 @@ const { userController } = require('../controllers');
 
 const { userMiddleware, globalMiddleware, authMiddleware } = require('../middlewares');
 
-const { dynamicParams } = require('../constants');
+const { dynamicParams, roles } = require('../constants');
 
 router.get('/',
     userMiddleware.validateUserQueryParams,
@@ -22,7 +22,7 @@ router.delete('/:id',
     globalMiddleware.validateParams,
     authMiddleware.validateAccessToken,
     userMiddleware.getUserByDynamicParam(dynamicParams.ID, dynamicParams.PARAMS, dynamicParams.DB_FIELD),
-    userMiddleware.checkUserRole(['admin']),
+    userMiddleware.checkUserRole([roles.ADMIN]),
     userController.deleteUser);
 router.put('/:id',
     globalMiddleware.validateParams,
