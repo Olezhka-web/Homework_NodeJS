@@ -29,7 +29,8 @@ router.put('/:id',
     userMiddleware.validateUpdateUserBody,
     authMiddleware.validateAccessToken,
     userMiddleware.getUserByDynamicParam(dynamicParams.ID, dynamicParams.PARAMS, dynamicParams.DB_FIELD),
-    userMiddleware.checkUserRole(['current_user']),
+    userMiddleware.isUserPresent,
+    userMiddleware.checkUserRole(),
     userMiddleware.checkUniqueEmail,
     userController.updateUser);
 

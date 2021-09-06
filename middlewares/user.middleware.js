@@ -102,5 +102,19 @@ module.exports = {
         } catch (e) {
             next(e);
         }
+    },
+
+    isUserPresent: (req, res, next) => {
+        try {
+            const { user, loggedUser } = req;
+
+            if (user._id.toString() !== loggedUser._id.toString()) {
+                throw new ErrorHandler(errorCodes.FORBIDDEN, messages.userMessages.FORBIDDEN);
+            }
+
+            next();
+        } catch (e) {
+            next(e);
+        }
     }
 };
