@@ -1,6 +1,6 @@
-const { userService, passwordService } = require('../service');
+const { userService, passwordService, emailService } = require('../service');
 
-const { errorCodes } = require('../constants');
+const { errorCodes, emailActions } = require('../constants');
 
 const { userUtil } = require('../utils');
 
@@ -37,6 +37,12 @@ module.exports = {
 
             const userNormalizedUser = userUtil.userNormalizator(createdUser);
 
+            await emailService.sendMail(
+                createdUser.email,
+                emailActions.WELCOME,
+                { userName: createdUser.name }
+            );
+
             res.status(errorCodes.CREATED).json(userNormalizedUser);
         } catch (e) {
             next(e);
@@ -45,9 +51,23 @@ module.exports = {
 
     deleteUser: async (req, res, next) => {
         try {
-            const { _id } = req.user;
+            const { deleteByUser, user: { _id, email, name } } = req;
 
             await userService.deleteUser({ _id });
+
+            if (deleteByUser) {
+                await emailService.sendMail(
+                    email,
+                    emailActions.DELETED_BY_USER,
+                    { userName: name }
+                );
+            } else {
+                await emailService.sendMail(
+                    email,
+                    emailActions.DELETED_BY_ADMIN,
+                    { userName: name }
+                );
+            }
 
             res.status(errorCodes.DELETED).json(`User with id ${_id} is deleted`);
         } catch (e) {
@@ -57,11 +77,17 @@ module.exports = {
 
     updateUser: async (req, res, next) => {
         try {
-            const { id } = req.user;
+            const { user } = req;
 
-            await userService.updateUser(id, req.body);
+            await userService.updateUser(user.id, req.body);
 
-            res.status(errorCodes.CREATED).json(`User with id ${id} is Update`);
+            await emailService.sendMail(
+                user.email,
+                emailActions.UPDATE,
+                { userName: user.name }
+            );
+
+            res.status(errorCodes.CREATED).json(`User with id ${user.id} is Update`);
         } catch (e) {
             next(e);
         }

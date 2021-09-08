@@ -5,5 +5,6 @@ module.exports = {
     RegExp: require('./RegExp/user.RegExp'),
     roles: require('./roles/user-roles.enum'),
     header: require('./header/headerName'),
-    database_tables: require('./database-tables/database-tables.enum')
+    database_tables: require('./database-tables/database-tables.enum'),
+    emailActions: require('./email-actions/email-actions.enum')
 };

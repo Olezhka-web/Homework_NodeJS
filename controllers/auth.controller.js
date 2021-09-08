@@ -1,10 +1,10 @@
-const { passwordService, authService } = require('../service');
+const { passwordService, authService, emailService } = require('../service');
 
 const { userUtil } = require('../utils');
 
 const { models } = require('../db');
 
-const { header, messages } = require('../constants');
+const { header, messages, emailActions } = require('../constants');
 
 module.exports = {
     getLogUser: async (req, res, next) => {
@@ -16,6 +16,12 @@ module.exports = {
             const tokenPair = authService.generateTokenPair();
 
             await models.OAuth.create({ ...tokenPair, user: user._id });
+
+            await emailService.sendMail(
+                user.email,
+                emailActions.AUTH,
+                { userName: user.name }
+            );
 
             res.json({
                 ...tokenPair,
@@ -33,6 +39,14 @@ module.exports = {
             await models.OAuth.deleteOne({ access_token });
 
             res.json(messages.userMessages.USER_LOGGED_OUT);
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    changePassword: (req, res, next) => {
+        try {
+            next();
         } catch (e) {
             next(e);
         }

@@ -14,5 +14,6 @@ module.exports = {
     FORBIDDEN: 'Forbidden',
     NO_TOKEN: 'No Token',
     INVALID_TOKEN: 'Invalid Token',
-    USER_LOGGED_OUT: 'User Logged out'
+    USER_LOGGED_OUT: 'User Logged out',
+    WRONG_TEMPLATE_NAME: 'WRONG_TEMPLATE_NAME'
 };

@@ -13,6 +13,12 @@ router.post('/logout',
     authMiddleware.validateAccessToken,
     authController.getLogoutUser);
 
+router.post('/password/forgot', authController.changePassword);
+
+router.put('/password/forgot');
+
+router.put('/password/reset');
+
 router.post('/refresh',
     authMiddleware.validateRefreshToken,
     authController.refresh);
