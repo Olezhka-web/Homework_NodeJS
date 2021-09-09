@@ -5,8 +5,11 @@ module.exports = {
     ACCESS_SECRET_KEY: process.env.ACCESS_SECRET_KEY || 'Access_Key',
     REFRESH_SECRET_KEY: process.env.REFRESH_SECRET_KEY || 'Refresh_Key',
 
+    ACTION_SECRET_KEY: process.env.ACTION_SECRET_KEY || 'Action_Key',
+
     NO_REPLY_EMAIL: process.env.NO_REPLY_EMAIL || 'test@gmail.com',
     NO_REPLY_EMAIL_PASSWORD: process.env.NO_REPLY_EMAIL_PASSWORD || 'test',
 
-    FRONTEND_URL: process.env.FRONTEND_URL || 'https://google.com'
+    FRONTEND_URL: process.env.FRONTEND_URL || 'https://google.com',
+    FRONTEND_PASSWORD_URL: process.env.FRONTEND_PASSWORD_URL || ''
 };

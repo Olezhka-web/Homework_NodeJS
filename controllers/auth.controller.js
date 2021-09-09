@@ -44,14 +44,6 @@ module.exports = {
         }
     },
 
-    changePassword: (req, res, next) => {
-        try {
-            next();
-        } catch (e) {
-            next(e);
-        }
-    },
-
     refresh: async (req, res, next) => {
         try {
             const refresh_token = req.get(header.AUTHORIZATION);
