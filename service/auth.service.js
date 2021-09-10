@@ -7,7 +7,7 @@ const { models } = require('../db');
 
 const { variables } = require('../config');
 
-const { errorCodes, messages } = require('../constants');
+const { errorCodes, messages, actionTokens } = require('../constants');
 
 const { ErrorHandler } = require('../errors');
 
@@ -32,5 +32,34 @@ module.exports = {
         } catch (e) {
             throw new ErrorHandler(errorCodes.UNAUTHORIZED, messages.userMessages.INVALID_TOKEN);
         }
+    },
+
+    generateActionToken: (actionType) => {
+        const secretWord = _getSecretWordForActionToken(actionType);
+
+        return jwt.sign({}, secretWord, { expiresIn: '7d' });
+    },
+
+    verifyActionToken: (token, actionType) => {
+        const secretWord = _getSecretWordForActionToken(actionType);
+
+        return jwt.verify(token, secretWord);
     }
 };
+
+function _getSecretWordForActionToken(actionType) {
+    let secretWord = '';
+
+    switch (actionType) {
+        case actionTokens.FORGOT_PASSWORD:
+            secretWord = variables.FORGOT_PASSWORD_SECRET_KEY;
+            break;
+        case actionTokens.CHANGE_ADMIN_PASSWORD:
+            secretWord = variables.CHANGE_ADMIN_PASSWORD_SECRET_KEY;
+            break;
+        default:
+            throw new ErrorHandler(errorCodes.SERVER_ERROR, messages.userMessages.WRONG_TOKEN_TYPE);
+    }
+
+    return secretWord;
+}

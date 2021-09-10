@@ -1,6 +1,8 @@
 const Joi = require('joi');
 const { RegExp } = require('../constants');
 
+const passwordSchema = Joi.string().regex(RegExp.PASSWORD_REGEXP).trim().required();
+
 const queryParamsUserValidator = Joi.object({
     name: Joi.string().min(2).max(10).trim(),
     email: Joi.string().regex(RegExp.EMAIL_REGEXP).trim()
@@ -15,7 +17,7 @@ const createUserValidator = Joi.object({
             .trim()
             .required(),
     email: Joi.string().regex(RegExp.EMAIL_REGEXP).trim().required(),
-    password: Joi.string().regex(RegExp.PASSWORD_REGEXP).trim().required(),
+    password: passwordSchema,
 });
 
 const updateUserValidator = Joi.object({
@@ -30,12 +32,21 @@ const updateUserValidator = Joi.object({
 
 const logUserValidator = Joi.object({
     email: Joi.string().regex(RegExp.EMAIL_REGEXP).trim().required(),
-    password: Joi.string().trim().required()
+    password: passwordSchema
+});
+
+const passwordValidator = Joi.object({ password: passwordSchema });
+
+const resetPasswordValidator = Joi.object({
+    password: passwordSchema,
+    oldPassword: passwordSchema
 });
 
 module.exports = {
     queryParamsUserValidator,
     createUserValidator,
     updateUserValidator,
-    logUserValidator
+    logUserValidator,
+    passwordValidator,
+    resetPasswordValidator
 };

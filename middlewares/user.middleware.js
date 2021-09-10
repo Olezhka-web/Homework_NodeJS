@@ -117,5 +117,33 @@ module.exports = {
         } catch (e) {
             next(e);
         }
+    },
+
+    validateNewPassword: (req, res, next) => {
+        try {
+            const { error } = userValidator.passwordValidator.validate(req.body);
+
+            if (error) {
+                throw new ErrorHandler(errorCodes.BAD_REQUEST, error.details[0].message);
+            }
+
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    validateResetPassword: (req, res, next) => {
+        try {
+            const { error } = userValidator.resetPasswordValidator.validate(req.body);
+
+            if (error) {
+                throw new ErrorHandler(errorCodes.BAD_REQUEST, error.details[0].message);
+            }
+
+            next();
+        } catch (e) {
+            next(e);
+        }
     }
 };

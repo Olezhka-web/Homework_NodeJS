@@ -6,5 +6,6 @@ module.exports = {
     roles: require('./roles/user-roles.enum'),
     header: require('./header/headerName'),
     database_tables: require('./database-tables/database-tables.enum'),
-    emailActions: require('./email-actions/email-actions.enum')
+    emailActions: require('./email-actions/email-actions.enum'),
+    actionTokens: require('./action-tokens/action-tokens.enum')
 };

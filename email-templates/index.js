@@ -20,5 +20,13 @@ module.exports = {
     [emailActions.AUTH]: {
         templateName: 'auth',
         subject: 'Logged In!!!'
-    }
+    },
+    [emailActions.FORGOT_PASSWORD]: {
+        templateName: 'forgot_password',
+        subject: 'Forgot Password!!!'
+    },
+    [emailActions.WELCOME_ADMIN]: {
+        templateName: 'welcome_admin',
+        subject: 'Welcome Admin!!!'
+    },
 };

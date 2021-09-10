@@ -2,7 +2,7 @@ const { ErrorHandler } = require('../errors');
 
 const { messages, errorCodes, header } = require('../constants');
 
-const { authService } = require('../service');
+const { authService, passwordService } = require('../service');
 
 const { userValidator } = require('../validators');
 
@@ -57,6 +57,41 @@ module.exports = {
             }
 
             req.loggedUser = tokenFromDB.user;
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    validateActionToken: (tokenType) => async (req, res, next) => {
+        try {
+            const action_token = req.get(header.AUTHORIZATION);
+
+            if (!action_token) {
+                throw new ErrorHandler(errorCodes.UNAUTHORIZED, messages.userMessages.NO_TOKEN);
+            }
+
+            await authService.verifyActionToken(action_token, tokenType);
+
+            const tokenFromDB = await models.ActionToken.findOne({ action_token }).populate('user');
+
+            if (!tokenFromDB) {
+                throw new ErrorHandler(errorCodes.UNAUTHORIZED, messages.userMessages.INVALID_TOKEN);
+            }
+
+            req.loggedUser = tokenFromDB.user;
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    checkOldPassword: async (req, res, next) => {
+        try {
+            const { loggedUser, body: { oldPassword } } = req;
+
+            await passwordService.compare(loggedUser.password, oldPassword);
+
             next();
         } catch (e) {
             next(e);

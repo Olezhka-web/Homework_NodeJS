@@ -12,13 +12,16 @@ mongoose.connect(variables.DB_URI);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const { authRouter, userRouter, carRouter } = require('./routes');
+const {
+    authRouter, userRouter, carRouter, adminRouter
+} = require('./routes');
 
 const { messages, errorCodes } = require('./constants');
 
 app.use('/auth', authRouter);
 app.use('/users', userRouter);
 app.use('/cars', carRouter);
+app.use('/admin', adminRouter);
 app.use('*', _notFoundError);
 app.use(_mainErrorHandler);
 

@@ -4,7 +4,11 @@ const { userUtil } = require('../utils');
 
 const { models } = require('../db');
 
-const { header, messages, emailActions } = require('../constants');
+const {
+    header, messages, emailActions, actionTokens, errorCodes
+} = require('../constants');
+
+const { variables } = require('../config');
 
 module.exports = {
     getLogUser: async (req, res, next) => {
@@ -44,9 +48,40 @@ module.exports = {
         }
     },
 
-    changePassword: (req, res, next) => {
+    sendMailForgotPassword: async (req, res, next) => {
         try {
-            next();
+            const { user } = req;
+
+            const actionToken = authService.generateActionToken(actionTokens.FORGOT_PASSWORD);
+
+            await models.ActionToken.create({ token: actionToken, user: user._id });
+
+            await emailService.sendMail(
+                user.email,
+                emailActions.FORGOT_PASSWORD,
+                { userName: user.name, forgotPasswordURL: `${variables.FRONTEND_URL}/password?actionToken=${actionToken}` }
+            );
+
+            res.json(messages.userMessages.OK);
+        } catch (e) {
+            next(e);
+        }
+    },
+
+    changePassword: async (req, res, next) => {
+        try {
+            const { loggedUser: { _id }, body: { password } } = req;
+            const token = req.get(header.AUTHORIZATION);
+
+            const hashPassword = await passwordService.hash(password);
+
+            await models.User.findByIdAndUpdate(_id, { password: hashPassword });
+
+            await models.ActionToken.deleteOne({ token });
+
+            await models.OAuth.deleteMany({ user: _id });
+
+            res.status(errorCodes.CREATED).json(messages.userMessages.OK);
         } catch (e) {
             next(e);
         }

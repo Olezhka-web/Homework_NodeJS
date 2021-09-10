@@ -15,5 +15,7 @@ module.exports = {
     NO_TOKEN: 'No Token',
     INVALID_TOKEN: 'Invalid Token',
     USER_LOGGED_OUT: 'User Logged out',
-    WRONG_TEMPLATE_NAME: 'WRONG_TEMPLATE_NAME'
+    WRONG_TEMPLATE_NAME: 'WRONG_TEMPLATE_NAME',
+    WRONG_TOKEN_TYPE: 'WRONG TOKEN TYPE',
+    OK: 'OK'
 };
