@@ -7,7 +7,9 @@ const { models } = require('../db');
 
 const { variables } = require('../config');
 
-const { errorCodes, messages, actionTokens } = require('../constants');
+const {
+    errorCodes, messages, actionTokens, tokenTypes
+} = require('../constants');
 
 const { ErrorHandler } = require('../errors');
 
@@ -24,9 +26,10 @@ module.exports = {
         };
     },
 
-    verifyToken: async (token, tokenType = 'access') => {
+    verifyToken: async (token, tokenType = tokenTypes.TOKEN_TYPE_ACCESS) => {
         try {
-            const secret = tokenType === 'access' ? variables.ACCESS_SECRET_KEY : variables.REFRESH_SECRET_KEY;
+            // eslint-disable-next-line max-len
+            const secret = tokenType === tokenTypes.TOKEN_TYPE_ACCESS ? variables.ACCESS_SECRET_KEY : variables.REFRESH_SECRET_KEY;
 
             await verifyPromise(token, secret);
         } catch (e) {

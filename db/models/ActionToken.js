@@ -3,7 +3,7 @@ const { Schema, model } = require('mongoose');
 const { database_tables } = require('../../constants');
 
 const ActionTokenSchema = new Schema({
-    token: {
+    action_token: {
         type: String,
         required: true
     },

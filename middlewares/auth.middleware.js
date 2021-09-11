@@ -1,28 +1,14 @@
 const { ErrorHandler } = require('../errors');
 
-const { messages, errorCodes, header } = require('../constants');
+const {
+    messages, errorCodes, header, tokenTypes
+} = require('../constants');
 
 const { authService, passwordService } = require('../service');
-
-const { userValidator } = require('../validators');
 
 const { models } = require('../db');
 
 module.exports = {
-    validateLogUserBody: (req, res, next) => {
-        try {
-            const { error } = userValidator.logUserValidator.validate(req.body);
-
-            if (error) {
-                throw new ErrorHandler(errorCodes.BAD_REQUEST, messages.userMessages.INVALID_EMAIL_OR_PASSWORD);
-            }
-
-            next();
-        } catch (e) {
-            next(e);
-        }
-    },
-
     isLogUserPresent: async (req, res, next) => {
         try {
             const { email } = req.body;
@@ -106,7 +92,7 @@ module.exports = {
                 throw new ErrorHandler(errorCodes.UNAUTHORIZED, messages.userMessages.NO_TOKEN);
             }
 
-            await authService.verifyToken(refresh_token, 'refresh');
+            await authService.verifyToken(refresh_token, tokenTypes.TOKEN_TYPE_REFRESH);
 
             const tokenFromDB = await models.OAuth.findOne({ refresh_token }).populate('user');
 

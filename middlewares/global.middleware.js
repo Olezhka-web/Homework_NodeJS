@@ -17,5 +17,19 @@ module.exports = {
         } catch (e) {
             next(e);
         }
+    },
+
+    validateByDynamicParam: (validator, searchIn = 'body') => (req, res, next) => {
+        try {
+            const { error } = validator.validate(req[searchIn]);
+
+            if (error) {
+                throw new ErrorHandler(errorCodes.BAD_REQUEST, error.details[0].message);
+            }
+
+            next();
+        } catch (e) {
+            next(e);
+        }
     }
 };

@@ -37,34 +37,6 @@ module.exports = {
         }
     },
 
-    validateCreateUserBody: (req, res, next) => {
-        try {
-            const { error } = userValidator.createUserValidator.validate(req.body);
-
-            if (error) {
-                throw new ErrorHandler(errorCodes.BAD_REQUEST, error.details[0].message);
-            }
-
-            next();
-        } catch (e) {
-            next(e);
-        }
-    },
-
-    validateUpdateUserBody: (req, res, next) => {
-        try {
-            const { error } = userValidator.updateUserValidator.validate(req.body);
-
-            if (error) {
-                throw new ErrorHandler(errorCodes.BAD_REQUEST, error.details[0].message);
-            }
-
-            next();
-        } catch (e) {
-            next(e);
-        }
-    },
-
     getUserByDynamicParam: (paramName, searchIn = 'body', dbField = paramName) => async (req, res, next) => {
         try {
             const value = req[searchIn][paramName];
@@ -111,34 +83,6 @@ module.exports = {
 
             if (user._id.toString() !== loggedUser._id.toString()) {
                 throw new ErrorHandler(errorCodes.FORBIDDEN, messages.userMessages.FORBIDDEN);
-            }
-
-            next();
-        } catch (e) {
-            next(e);
-        }
-    },
-
-    validateNewPassword: (req, res, next) => {
-        try {
-            const { error } = userValidator.passwordValidator.validate(req.body);
-
-            if (error) {
-                throw new ErrorHandler(errorCodes.BAD_REQUEST, error.details[0].message);
-            }
-
-            next();
-        } catch (e) {
-            next(e);
-        }
-    },
-
-    validateResetPassword: (req, res, next) => {
-        try {
-            const { error } = userValidator.resetPasswordValidator.validate(req.body);
-
-            if (error) {
-                throw new ErrorHandler(errorCodes.BAD_REQUEST, error.details[0].message);
             }
 
             next();

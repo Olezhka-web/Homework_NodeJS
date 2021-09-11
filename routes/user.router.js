@@ -6,11 +6,13 @@ const { userMiddleware, globalMiddleware, authMiddleware } = require('../middlew
 
 const { dynamicParams, roles } = require('../constants');
 
+const { userValidator } = require('../validators');
+
 router.get('/',
     userMiddleware.validateUserQueryParams,
     userController.getUsers);
 router.post('/',
-    userMiddleware.validateCreateUserBody,
+    globalMiddleware.validateByDynamicParam(userValidator.createUserValidator),
     userMiddleware.checkUniqueEmail,
     userController.createUser);
 
@@ -26,7 +28,7 @@ router.delete('/:id',
     userController.deleteUser);
 router.put('/:id',
     globalMiddleware.validateParams,
-    userMiddleware.validateUpdateUserBody,
+    globalMiddleware.validateByDynamicParam(userValidator.updateUserValidator),
     authMiddleware.validateAccessToken,
     userMiddleware.getUserByDynamicParam(dynamicParams.ID, dynamicParams.PARAMS, dynamicParams.DB_FIELD),
     userMiddleware.isUserPresent,

@@ -1,5 +1,6 @@
 module.exports = {
     ID: 'id',
     PARAMS: 'params',
-    DB_FIELD: '_id'
+    DB_FIELD: '_id',
+    EMAIL: 'email'
 };

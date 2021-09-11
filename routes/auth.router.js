@@ -1,13 +1,15 @@
 const router = require('express').Router();
 
-const { authMiddleware, userMiddleware } = require('../middlewares');
+const { authMiddleware, userMiddleware, globalMiddleware } = require('../middlewares');
 
 const { authController } = require('../controllers');
 
-const { actionTokens } = require('../constants');
+const { actionTokens, dynamicParams } = require('../constants');
+
+const { userValidator } = require('../validators');
 
 router.post('/',
-    authMiddleware.validateLogUserBody,
+    globalMiddleware.validateByDynamicParam(userValidator.logUserValidator),
     authMiddleware.isLogUserPresent,
     authController.getLogUser);
 
@@ -16,16 +18,17 @@ router.post('/logout',
     authController.getLogoutUser);
 
 router.post('/password/forgot/send',
-    userMiddleware.getUserByDynamicParam('email'),
+    globalMiddleware.validateByDynamicParam(userValidator.passwordValidator),
+    userMiddleware.getUserByDynamicParam(dynamicParams.EMAIL),
     authController.sendMailForgotPassword);
 
 router.post('/password/forgot/set',
-    userMiddleware.validateNewPassword,
+    globalMiddleware.validateByDynamicParam(userValidator.passwordValidator),
     authMiddleware.validateActionToken(actionTokens.FORGOT_PASSWORD),
     authController.changePassword);
 
 router.put('/password/reset',
-    userMiddleware.validateResetPassword,
+    globalMiddleware.validateByDynamicParam(userValidator.resetPasswordValidator),
     authMiddleware.validateAccessToken,
     authMiddleware.checkOldPassword,
     authController.changePassword);

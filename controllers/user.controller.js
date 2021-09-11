@@ -69,7 +69,7 @@ module.exports = {
                 );
             }
 
-            res.status(errorCodes.DELETED).json(`User with id ${_id} is deleted`);
+            res.sendStatus(errorCodes.DELETED);
         } catch (e) {
             next(e);
         }
