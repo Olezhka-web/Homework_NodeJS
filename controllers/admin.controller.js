@@ -5,7 +5,7 @@ const {
 const { userUtil } = require('../utils');
 
 const {
-    emailActions, errorCodes, header, actionTokens
+    emailActions, errorCodes, actionTokens
 } = require('../constants');
 
 const { variables } = require('../config');
@@ -16,7 +16,6 @@ module.exports = {
     createAdminUser: async (req, res, next) => {
         try {
             const { loggedUser, body: { password } } = req;
-            const token = req.get(header.AUTHORIZATION);
 
             const hashedPassword = await passwordService.hash(password);
 
@@ -31,7 +30,11 @@ module.exports = {
             await emailService.sendMail(
                 createdAdmin.email,
                 emailActions.WELCOME_ADMIN,
-                { userName: createdAdmin.name, mainAdmin: loggedUser.name, adminURL: `${variables.FRONTEND_URL}?token=${token}` }
+                {
+                    userName: createdAdmin.name,
+                    mainAdmin: loggedUser.name,
+                    adminURL: `${variables.FRONTEND_URL}?actionToken=${action_token}`
+                }
             );
 
             res.status(errorCodes.CREATED).json(userNormalizedAdmin);
