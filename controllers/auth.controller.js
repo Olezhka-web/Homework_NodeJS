@@ -52,14 +52,14 @@ module.exports = {
         try {
             const { user } = req;
 
-            const actionToken = authService.generateActionToken(actionTokens.FORGOT_PASSWORD);
+            const action_token = authService.generateActionToken(actionTokens.FORGOT_PASSWORD);
 
-            await models.ActionToken.create({ actionToken, user: user._id });
+            await models.ActionToken.create({ action_token, user: user._id });
 
             await emailService.sendMail(
                 user.email,
                 emailActions.FORGOT_PASSWORD,
-                { userName: user.name, forgotPasswordURL: `${variables.FRONTEND_URL}/password?actionToken=${actionToken}` }
+                { userName: user.name, forgotPasswordURL: `${variables.FRONTEND_URL}/password?actionToken=${action_token}` }
             );
 
             res.json(messages.userMessages.OK);

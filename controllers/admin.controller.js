@@ -24,9 +24,9 @@ module.exports = {
 
             const userNormalizedAdmin = userUtil.userNormalizator(createdAdmin);
 
-            const actionToken = authService.generateActionToken(actionTokens.CHANGE_ADMIN_PASSWORD);
+            const action_token = authService.generateActionToken(actionTokens.CHANGE_ADMIN_PASSWORD);
 
-            await models.ActionToken.create({ actionToken, user: createdAdmin._id });
+            await models.ActionToken.create({ action_token, user: createdAdmin._id });
 
             await emailService.sendMail(
                 createdAdmin.email,
