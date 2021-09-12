@@ -71,13 +71,13 @@ module.exports = {
     changePassword: async (req, res, next) => {
         try {
             const { loggedUser: { _id }, body: { password } } = req;
-            const token = req.get(header.AUTHORIZATION);
+            const action_token = req.get(header.AUTHORIZATION);
 
             const hashPassword = await passwordService.hash(password);
 
             await models.User.findByIdAndUpdate(_id, { password: hashPassword });
 
-            await models.ActionToken.deleteOne({ token });
+            await models.ActionToken.deleteOne({ action_token });
 
             await models.OAuth.deleteMany({ user: _id });
 
