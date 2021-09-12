@@ -26,7 +26,7 @@ module.exports = {
 
             const actionToken = authService.generateActionToken(actionTokens.CHANGE_ADMIN_PASSWORD);
 
-            await models.ActionToken.create({ token: actionToken, user: createdAdmin._id });
+            await models.ActionToken.create({ actionToken, user: createdAdmin._id });
 
             await emailService.sendMail(
                 createdAdmin.email,

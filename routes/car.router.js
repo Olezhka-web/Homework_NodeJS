@@ -6,11 +6,13 @@ const { carMiddleware, globalMiddleware } = require('../middlewares');
 
 const { dynamicParams } = require('../constants');
 
+const { carValidator } = require('../validators');
+
 router.get('/',
     carMiddleware.validateCarQueryParams,
     carController.getCars);
 router.post('/',
-    carMiddleware.validateCreateCarBody,
+    globalMiddleware.validateByDynamicParam(carValidator.createCarValidator),
     carController.createCar);
 
 router.get('/:id',
@@ -23,7 +25,7 @@ router.delete('/:id',
     carController.deleteCar);
 router.put('/:id',
     globalMiddleware.validateParams,
-    carMiddleware.validateUpdateCarBody,
+    globalMiddleware.validateByDynamicParam(carValidator.updateCarValidator),
     carMiddleware.getCarByDynamicParam(dynamicParams.ID, dynamicParams.PARAMS, dynamicParams.DB_FIELD),
     carController.updateCar);
 

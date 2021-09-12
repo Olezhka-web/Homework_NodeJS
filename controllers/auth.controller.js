@@ -54,7 +54,7 @@ module.exports = {
 
             const actionToken = authService.generateActionToken(actionTokens.FORGOT_PASSWORD);
 
-            await models.ActionToken.create({ token: actionToken, user: user._id });
+            await models.ActionToken.create({ actionToken, user: user._id });
 
             await emailService.sendMail(
                 user.email,

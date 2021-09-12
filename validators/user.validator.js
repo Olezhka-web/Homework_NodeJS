@@ -37,6 +37,8 @@ const logUserValidator = Joi.object({
 
 const passwordValidator = Joi.object({ password: passwordSchema });
 
+const emailValidator = Joi.object({ email: Joi.string().regex(RegExp.EMAIL_REGEXP).trim().required() });
+
 const resetPasswordValidator = Joi.object({
     password: passwordSchema,
     oldPassword: passwordSchema
@@ -48,5 +50,6 @@ module.exports = {
     updateUserValidator,
     logUserValidator,
     passwordValidator,
-    resetPasswordValidator
+    resetPasswordValidator,
+    emailValidator
 };

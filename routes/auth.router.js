@@ -18,7 +18,7 @@ router.post('/logout',
     authController.getLogoutUser);
 
 router.post('/password/forgot/send',
-    globalMiddleware.validateByDynamicParam(userValidator.passwordValidator),
+    globalMiddleware.validateByDynamicParam(userValidator.emailValidator),
     userMiddleware.getUserByDynamicParam(dynamicParams.EMAIL),
     authController.sendMailForgotPassword);
 

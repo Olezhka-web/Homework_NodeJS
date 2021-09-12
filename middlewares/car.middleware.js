@@ -21,34 +21,6 @@ module.exports = {
         }
     },
 
-    validateCreateCarBody: (req, res, next) => {
-        try {
-            const { error } = carValidator.createCarValidator.validate(req.body);
-
-            if (error) {
-                throw new ErrorHandler(errorCodes.BAD_REQUEST, error.details[0].message);
-            }
-
-            next();
-        } catch (e) {
-            next(e);
-        }
-    },
-
-    validateUpdateCarBody: (req, res, next) => {
-        try {
-            const { error } = carValidator.updateCarValidator.validate(req.body);
-
-            if (error) {
-                throw new ErrorHandler(errorCodes.BAD_REQUEST, error.details[0].message);
-            }
-
-            next();
-        } catch (e) {
-            next(e);
-        }
-    },
-
     getCarByDynamicParam: (paramName, searchIn = 'body', dbField = paramName) => async (req, res, next) => {
         try {
             const value = req[searchIn][paramName];
