@@ -61,7 +61,15 @@ module.exports = {
 
     deleteUser: async (req, res, next) => {
         try {
-            const { deleteByUser, user: { _id, email, name } } = req;
+            const {
+                deleteByUser, user: {
+                    _id, email, name, avatar
+                }
+            } = req;
+
+            if (avatar) {
+                await s3Service.deleteFile(avatar);
+            }
 
             await userService.deleteUser({ _id });
 
