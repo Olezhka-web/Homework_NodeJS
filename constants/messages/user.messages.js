@@ -17,5 +17,7 @@ module.exports = {
     USER_LOGGED_OUT: 'User Logged out',
     WRONG_TEMPLATE_NAME: 'WRONG_TEMPLATE_NAME',
     WRONG_TOKEN_TYPE: 'WRONG TOKEN TYPE',
-    OK: 'OK'
+    OK: 'OK',
+    FILE_IS_TOO_BIG: 'File is too big',
+    WRONG_FILE_FORMAT: 'Wrong file format'
 };

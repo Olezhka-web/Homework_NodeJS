@@ -10,5 +10,10 @@ module.exports = {
     NO_REPLY_EMAIL: process.env.NO_REPLY_EMAIL || 'test@gmail.com',
     NO_REPLY_EMAIL_PASSWORD: process.env.NO_REPLY_EMAIL_PASSWORD || 'test',
 
-    FRONTEND_URL: process.env.FRONTEND_URL || 'https://google.com'
+    FRONTEND_URL: process.env.FRONTEND_URL || 'https://google.com',
+
+    AWS_S3_NAME: process.env.AWS_S3_NAME || 'AWS Name',
+    AWS_S3_REGION: process.env.AWS_S3_REGION || 'AWS Region',
+    AWS_S3_ACCESS_KEY: process.env.AWS_S3_ACCESS_KEY || 'AWS Access Key',
+    AWS_S3_SECRET_KEY: process.env.AWS_S3_SECRET_KEY || 'AWS Secret Key'
 };

@@ -25,6 +25,9 @@ const userSchema = new Schema({
         trim: true,
         default: roles.USER,
         enum: Object.values(roles)
+    },
+    avatar: {
+        type: String
     }
 }, { timestamps: true });
 

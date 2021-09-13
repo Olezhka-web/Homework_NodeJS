@@ -2,7 +2,9 @@ const router = require('express').Router();
 
 const { userController } = require('../controllers');
 
-const { userMiddleware, globalMiddleware, authMiddleware } = require('../middlewares');
+const {
+    userMiddleware, globalMiddleware, authMiddleware, fileMiddleware
+} = require('../middlewares');
 
 const { dynamicParams, roles } = require('../constants');
 
@@ -13,6 +15,7 @@ router.get('/',
     userController.getUsers);
 router.post('/',
     globalMiddleware.validateByDynamicParam(userValidator.createUserValidator),
+    fileMiddleware.checkAvatar,
     userMiddleware.checkUniqueEmail,
     userController.createUser);
 
@@ -29,6 +32,7 @@ router.delete('/:id',
 router.put('/:id',
     globalMiddleware.validateParams,
     globalMiddleware.validateByDynamicParam(userValidator.updateUserValidator),
+    fileMiddleware.checkAvatar,
     authMiddleware.validateAccessToken,
     userMiddleware.getUserByDynamicParam(dynamicParams.ID, dynamicParams.PARAMS, dynamicParams.DB_FIELD),
     userMiddleware.isUserPresent,

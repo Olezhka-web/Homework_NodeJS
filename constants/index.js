@@ -8,5 +8,6 @@ module.exports = {
     database_tables: require('./database-tables/database-tables.enum'),
     emailActions: require('./email-actions/email-actions.enum'),
     actionTokens: require('./action-tokens/action-tokens.enum'),
-    tokenTypes: require('./token-types/token-types.enum')
+    tokenTypes: require('./token-types/token-types.enum'),
+    fileSettings: require('./files-settings/file-settings.enum')
 };
