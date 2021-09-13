@@ -1,11 +1,8 @@
 const { ErrorHandler } = require('../errors');
-
 const {
     messages, errorCodes, header, tokenTypes
 } = require('../constants');
-
 const { authService, passwordService } = require('../service');
-
 const { models } = require('../db');
 
 module.exports = {

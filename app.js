@@ -17,7 +17,6 @@ app.use(expressFileUpload());
 const {
     authRouter, userRouter, carRouter, adminRouter
 } = require('./routes');
-
 const { messages, errorCodes } = require('./constants');
 
 app.use('/auth', authRouter);

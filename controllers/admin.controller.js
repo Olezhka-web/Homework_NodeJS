@@ -1,15 +1,11 @@
 const {
     passwordService, userService, emailService, authService
 } = require('../service');
-
 const { userUtil } = require('../utils');
-
 const {
     emailActions, errorCodes, actionTokens
 } = require('../constants');
-
 const { variables } = require('../config');
-
 const { models } = require('../db');
 
 module.exports = {

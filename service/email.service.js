@@ -3,11 +3,8 @@ const EmailTemplates = require('email-templates');
 const path = require('path');
 
 const { variables } = require('../config');
-
 const allTemplates = require('../email-templates');
-
 const { errorCodes, messages } = require('../constants');
-
 const { ErrorHandler } = require('../errors');
 
 const templateParser = new EmailTemplates({

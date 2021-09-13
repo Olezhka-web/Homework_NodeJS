@@ -1,7 +1,5 @@
 const { globalValidator } = require('../validators');
-
 const { ErrorHandler } = require('../errors');
-
 const { messages, errorCodes } = require('../constants');
 
 module.exports = {

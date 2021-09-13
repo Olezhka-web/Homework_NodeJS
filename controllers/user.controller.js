@@ -1,9 +1,7 @@
 const {
     userService, passwordService, emailService, s3Service
 } = require('../service');
-
 const { errorCodes, emailActions } = require('../constants');
-
 const { userUtil } = require('../utils');
 const { models } = require('../db');
 

@@ -4,13 +4,10 @@ const util = require('util');
 const verifyPromise = util.promisify(jwt.verify);
 
 const { models } = require('../db');
-
 const { variables } = require('../config');
-
 const {
     errorCodes, messages, actionTokens, tokenTypes
 } = require('../constants');
-
 const { ErrorHandler } = require('../errors');
 
 module.exports = {

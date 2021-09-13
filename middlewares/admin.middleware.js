@@ -1,7 +1,5 @@
 const { adminValidator } = require('../validators');
-
 const { ErrorHandler } = require('../errors');
-
 const { errorCodes, messages } = require('../constants');
 
 module.exports = {

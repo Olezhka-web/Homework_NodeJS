@@ -1,4 +1,5 @@
 const Joi = require('joi');
+
 const { RegExp } = require('../constants');
 
 const passwordSchema = Joi.string().regex(RegExp.PASSWORD_REGEXP).trim().required();

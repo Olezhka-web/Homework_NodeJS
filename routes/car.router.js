@@ -1,11 +1,8 @@
 const router = require('express').Router();
 
 const { carController } = require('../controllers');
-
 const { carMiddleware, globalMiddleware } = require('../middlewares');
-
 const { dynamicParams } = require('../constants');
-
 const { carValidator } = require('../validators');
 
 router.get('/',

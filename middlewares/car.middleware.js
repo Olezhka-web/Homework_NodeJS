@@ -1,9 +1,6 @@
 const { ErrorHandler } = require('../errors');
-
 const { messages, errorCodes } = require('../constants');
-
 const { carValidator } = require('../validators');
-
 const { models } = require('../db');
 
 module.exports = {

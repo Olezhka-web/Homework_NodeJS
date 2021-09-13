@@ -1,11 +1,8 @@
 const router = require('express').Router();
 
 const { authMiddleware, userMiddleware, globalMiddleware } = require('../middlewares');
-
 const { authController } = require('../controllers');
-
 const { actionTokens, dynamicParams } = require('../constants');
-
 const { userValidator } = require('../validators');
 
 router.post('/',

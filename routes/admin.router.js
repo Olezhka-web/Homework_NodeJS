@@ -1,13 +1,10 @@
 const router = require('express').Router();
 
 const { adminController, authController } = require('../controllers');
-
 const {
     userMiddleware, adminMiddleware, authMiddleware, globalMiddleware
 } = require('../middlewares');
-
 const { roles, actionTokens } = require('../constants');
-
 const { adminValidator, userValidator } = require('../validators');
 
 router.post('/create',

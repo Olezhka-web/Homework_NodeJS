@@ -1,13 +1,10 @@
 const router = require('express').Router();
 
 const { userController } = require('../controllers');
-
 const {
     userMiddleware, globalMiddleware, authMiddleware, fileMiddleware
 } = require('../middlewares');
-
 const { dynamicParams, roles } = require('../constants');
-
 const { userValidator } = require('../validators');
 
 router.get('/',
