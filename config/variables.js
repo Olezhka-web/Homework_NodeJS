@@ -15,5 +15,11 @@ module.exports = {
     AWS_S3_NAME: process.env.AWS_S3_NAME || 'AWS Name',
     AWS_S3_REGION: process.env.AWS_S3_REGION || 'AWS Region',
     AWS_S3_ACCESS_KEY: process.env.AWS_S3_ACCESS_KEY || 'AWS Access Key',
-    AWS_S3_SECRET_KEY: process.env.AWS_S3_SECRET_KEY || 'AWS Secret Key'
+    AWS_S3_SECRET_KEY: process.env.AWS_S3_SECRET_KEY || 'AWS Secret Key',
+
+    ALLOWED_ORIGINS: process.env.ALLOWED_ORIGINS || 'http://localhost:3000',
+
+    MAIN_ADMIN_NAME: process.env.MAIN_ADMIN_NAME || 'Main_Admin_Name',
+    MAIN_ADMIN_EMAIL: process.env.MAIN_ADMIN_EMAIL || 'testmainadmin@example.com',
+    MAIN_ADMIN_PASSWORD: process.env.MAIN_ADMIN_PASSWORD || '123456789'
 };

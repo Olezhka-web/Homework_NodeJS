@@ -29,4 +29,8 @@ module.exports = {
         templateName: 'welcome_admin',
         subject: 'Welcome Admin!!!'
     },
+    [emailActions.NOT_ACTIVE]: {
+        templateName: 'not_active',
+        subject: 'Not Active!!!'
+    }
 };

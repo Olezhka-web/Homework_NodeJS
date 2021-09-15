@@ -5,5 +5,6 @@ module.exports = {
     DELETED_BY_ADMIN: 'deleted_by_admin',
     AUTH: 'auth',
     FORGOT_PASSWORD: 'forgot_password',
-    WELCOME_ADMIN: 'welcome_admin'
+    WELCOME_ADMIN: 'welcome_admin',
+    NOT_ACTIVE: 'not_active'
 };
