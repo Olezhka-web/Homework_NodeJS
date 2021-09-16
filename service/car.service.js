@@ -27,10 +27,6 @@ module.exports = {
                     filterObject.model = { $regex: `^${filters.model}`, $options: 'gi' };
                     break;
                 }
-                case 'price': {
-                    filterObject.price = filters.price;
-                    break;
-                }
                 case 'price.lte': {
                     Object.assign(priceFilter, { $lte: +filters['price.lte'] });
                     break;

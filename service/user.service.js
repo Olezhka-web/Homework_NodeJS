@@ -31,10 +31,6 @@ module.exports = {
                     filterObject.name = { $regex: `^${filters.name}`, $options: 'gi' };
                     break;
                 }
-                case 'email': {
-                    filterObject.email = filters.email;
-                    break;
-                }
                 default: {
                     filterObject[filterParam] = filters[filterParam];
                 }
