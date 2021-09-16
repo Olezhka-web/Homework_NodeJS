@@ -4,6 +4,7 @@ const helmet = require('helmet');
 const cors = require('cors');
 const expressFileUpload = require('express-fileupload');
 const expressRateLimit = require('express-rate-limit');
+const swaggerUI = require('swagger-ui-express');
 
 require('dotenv').config();
 
@@ -38,7 +39,9 @@ const {
 const { messages, errorCodes } = require('./constants');
 const { ErrorHandler } = require('./errors');
 const cronJobs = require('./cron');
+const swaggerJson = require('./docs/swagger.json');
 
+app.use('/docs', swaggerUI.serve, swaggerUI.setup(swaggerJson));
 app.use('/auth', authRouter);
 app.use('/users', userRouter);
 app.use('/cars', carRouter);

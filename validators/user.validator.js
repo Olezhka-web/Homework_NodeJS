@@ -6,7 +6,11 @@ const passwordSchema = Joi.string().regex(RegExp.PASSWORD_REGEXP).trim().require
 
 const queryParamsUserValidator = Joi.object({
     name: Joi.string().min(2).max(10).trim(),
-    email: Joi.string().regex(RegExp.EMAIL_REGEXP).trim()
+    email: Joi.string().regex(RegExp.EMAIL_REGEXP).trim(),
+    page: Joi.number().min(1),
+    perPage: Joi.number().min(1),
+    order: Joi.string().min(3).max(4).trim(),
+    role: Joi.string().min(4).max(12).trim()
 });
 
 const createUserValidator = Joi.object({

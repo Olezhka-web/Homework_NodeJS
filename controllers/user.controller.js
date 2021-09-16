@@ -8,7 +8,7 @@ const { models } = require('../db');
 module.exports = {
     getUsers: async (req, res, next) => {
         try {
-            const users = await userService.findUsers(req.query);
+            const users = await userService.getAllUsers(req.query);
 
             const userNormalizedUser = users.map((user) => userUtil.userNormalizator(user));
 

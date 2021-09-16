@@ -4,7 +4,7 @@ const { errorCodes } = require('../constants');
 module.exports = {
     getCars: async (req, res, next) => {
         try {
-            const cars = await carService.findCars(req.query);
+            const cars = await carService.getAllCars(req.query);
 
             res.json(cars);
         } catch (e) {

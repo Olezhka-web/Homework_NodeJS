@@ -1,9 +1,14 @@
 const Joi = require('joi');
 
 const queryParamsCarValidator = Joi.object({
-    model: Joi.string().alphanum().min(2).max(30)
+    model: Joi.string()
+        .alphanum()
+        .min(2)
+        .max(30)
         .trim(),
-    price: Joi.number()
+    price: Joi.number(),
+    'price.lte': Joi.number(),
+    'price.gte': Joi.number()
 });
 
 const createCarValidator = Joi.object({
