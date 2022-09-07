@@ -1,0 +1,297 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "My Project",
+    "version": "0.0.1",
+    "description": "Hello wordl",
+    "contact": {
+      "name": "Oleh"
+    }
+  },
+  "paths": {
+    "/users": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "operationId": "getAllUsers",
+        "description": "Get all users",
+        "parameters": [
+          {
+            "name": "perPage",
+            "in": "query",
+            "default": 10,
+            "type": "number",
+            "description": "How many users will be returned"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "default": 1,
+            "type": "number",
+            "description": "Page Users"
+          },
+          {
+            "name": "role",
+            "in": "query",
+            "default": "user",
+            "type": "array",
+            "description": "Get Users with specified Roles"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "type": "string",
+            "description": "Get Users with specified Name"
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "type": "string",
+            "description": "Get Users with specified Email"
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "type": "string",
+            "description": "SortBy created date (ASC Or DESC)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All users info arr",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/singleUser"
+              }
+            }
+          },
+          "400": {
+            "description": "bad request",
+            "schema": {
+              "$ref": "#/definitions/errorSchema"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "description": "Create user",
+        "operationId": "createUser",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "default": "John",
+            "description": "User name"
+          },
+          {
+            "name": "email",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "default": "john.doe@example.com",
+            "description": "User email"
+          },
+          {
+            "name": "password",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "default": "sdfsdf!D25sdfs",
+            "description": "User password"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "User was created",
+            "schema": {
+              "$ref": "#/definitions/singleUser"
+            }
+          },
+          "400": {
+            "description": "bad request",
+            "schema": {
+              "$ref": "#/definitions/errorSchema"
+            }
+          }
+        }
+      }
+    },
+    "/cars": {
+      "get": {
+        "tags": [
+          "cars"
+        ],
+        "operationId": "getAllCars",
+        "description": "Get all cars",
+        "parameters": [
+          {
+            "name": "model",
+            "in": "query",
+            "default": "Mercedes",
+            "type": "string",
+            "description": "Get all cars with model Mercedes"
+          },
+          {
+            "name": "price",
+            "in": "query",
+            "default": 1111,
+            "type": "number",
+            "description": "Fix Price Cars"
+          },
+          {
+            "name": "price.lte",
+            "in": "query",
+            "default": 1111,
+            "type": "number",
+            "description": "Get Cars with specified lte price"
+          },
+          {
+            "name": "price.gte",
+            "in": "query",
+            "default": 1111,
+            "type": "number",
+            "description": "Get Cars with specified gte price"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "All cars info arr",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/singleCar"
+              }
+            }
+          },
+          "400": {
+            "description": "bad request",
+            "schema": {
+              "$ref": "#/definitions/errorSchema"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "cars"
+        ],
+        "description": "Create car",
+        "operationId": "createCar",
+        "parameters": [
+          {
+            "name": "model",
+            "in": "formData",
+            "type": "string",
+            "required": true,
+            "default": "Mercedes",
+            "description": "Car Model"
+          },
+          {
+            "name": "price",
+            "in": "formData",
+            "type": "number",
+            "required": true,
+            "default": 11111,
+            "description": "Car price"
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Car was created",
+            "schema": {
+              "$ref": "#/definitions/singleCar"
+            }
+          },
+          "400": {
+            "description": "bad request",
+            "schema": {
+              "$ref": "#/definitions/errorSchema"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "errorSchema": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "description": "Error message",
+          "example": "Invalid search option"
+        },
+        "code": {
+          "description": "custom code",
+          "example": 228,
+          "type": "number"
+        }
+      }
+    },
+    "singleUser": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "example": "777as999asd"
+        },
+        "name": {
+          "type": "string",
+          "example": "Oleh"
+        },
+        "email": {
+          "type": "string",
+          "example": "john.doe@example.com"
+        },
+        "role": {
+          "type": "string",
+          "example": "user"
+        },
+        "createdAt": {
+          "type": "string",
+          "example": "2021-09-16T16:33:18.461Z"
+        },
+        "updatedAt": {
+          "type": "string",
+          "example": "2021-09-16T16:33:18.461Z"
+        },
+        "__v": {
+          "type": "number",
+          "example": 0
+        }
+      }
+    },
+    "singleCar": {
+      "type": "object",
+      "properties": {
+        "model": {
+          "type": "string",
+          "example": "Mercedes"
+        },
+        "price": {
+          "type": "number",
+          "example": 1111
+        },
+        "createdAt": {
+          "type": "string",
+          "example": "2021-09-16T16:33:18.461Z"
+        },
+        "updatedAt": {
+          "type": "string",
+          "example": "2021-09-16T16:33:18.461Z"
+        },
+        "__v": {
+          "type": "number",
+          "example": 0
+        }
+      }
+    }
+  }
+}
